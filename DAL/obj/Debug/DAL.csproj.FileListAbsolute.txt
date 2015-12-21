@@ -1,0 +1,4 @@
+E:\Project\foodOrder\DAL\DAL\bin\Debug\DAL.dll
+E:\Project\foodOrder\DAL\DAL\bin\Debug\DAL.pdb
+E:\Project\foodOrder\DAL\DAL\obj\Debug\DAL.dll
+E:\Project\foodOrder\DAL\DAL\obj\Debug\DAL.pdb
