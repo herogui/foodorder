@@ -5,7 +5,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
     <title>杜六房连锁门店订菜系统</title>
-    <style>
+    <style type="text/css">
       html, body, #main {
         height:100%;
         width:100%;
@@ -16,12 +16,6 @@
 
     <link rel="stylesheet" href="css/menu.css" type="text/css" />
     <link href="css/main.css" rel="stylesheet" type="text/css" />
-
-    <script src="js/main.js" type="text/javascript"></script>
-    <script src="js/jquery-1.11.2.min.js" type="text/javascript"></script>
-    <script src="js/jquery.backgroundpos.js" type="text/javascript"></script>
-    <script src="js/menu.js" type="text/javascript"></script>
-
 </head>
 <body>
     <!-- 代码 开始 -->
@@ -33,38 +27,40 @@
         </ul>     
         
     </div>
-    
+    <!-- 代码 内容 -->
      <div id="content" style="width:100%;  text-align:center">
-     <div id ="div1" style="float:left;  width:100px;">
-     <div class="text1">酱汁肉</div>
-      <div class="text1">油爆虾</div>
-       <div class="text1">小排</div>
-        <div class="text1">臭豆腐</div>
-         <div class="text1">话梅萝卜</div>
-      <div class="text1">酱鸭</div>
-       <div class="text1">糖藕</div>
-        <div class="text1">狮子头</div>
-        <div class="text1">辣酱</div>
-      <div class="text1">醉鸡</div>
-       <div class="text1" >目鱼卷</div>
-        <div class="text1">扁尖毛豆</div>
-         <div class="text1">海蜇丝</div>
-      <div class="text1">烤鸭</div>
-       <div class="text1">豉油鸡</div>
-        <div class="text1">盐焗鸡</div>
-         <div class="text1">鸭膀</div>
+
+         <%-- 菜品--%>
+     <div id ="divFoods" style="float:left;  width:25%;">
      </div >  
+
     <%-- 减列--%>
-     <div id="divMinus" style="float:left;width:100px; ">     
+     <div id="divMinus" style="float:left;width:25%; ">     
      </div>
+
    <%--  数量列--%>
-     <div id="divNum" style="float:left;width:100px;">     
+     <div id="divNum" style="float:left;width:25%;">     
      </div>   
+
     <%-- 加列--%>
-     <div  id="divAdd" style="float:left;width:100px;"> 
+     <div  id="divAdd" style="float:left;width:25%;"> 
      </div>
      
      </div>
-          
+          <!-- 代码 底部 -->
+          <div style="margin-top:50px">
+          <div style="margin-top:100px;float:left; margin-left:10%">
+            <input type="button" value="重置"  onclick="repeat()" style="width:160px;height:50px;" />
+          </div>
+          <div style ="margin-top:100px;float:right;margin-right:10%">
+           <input type="button" value="提交" onclick="sendMain()" style="width:160px;height:50px;" /></div>
+          </div>
 </body>
 </html>
+
+<script src="js/obj.js" type="text/javascript"></script>
+    <script src="js/my.js" type="text/javascript"></script>
+    <script src="js/main.js" type="text/javascript"></script>
+    <script src="js/jquery-1.11.2.min.js" type="text/javascript"></script>
+    <script src="js/jquery.backgroundpos.js" type="text/javascript"></script>
+    <script src="js/menu.js" type="text/javascript"></script>

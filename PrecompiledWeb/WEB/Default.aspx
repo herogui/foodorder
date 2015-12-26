@@ -1,11 +1,11 @@
-<%@ page language="C#" autoeventwireup="true" inherits="_Default, App_Web_b0wak4g5" %>
+<%@ page language="C#" autoeventwireup="true" inherits="_Default, App_Web_2tvzq3qk" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
     <title>杜六房连锁门店订菜系统</title>
-    <style>
+    <style type="text/css">
       html, body, #main {
         height:100%;
         width:100%;
@@ -35,33 +35,21 @@
     </div>
     
      <div id="content" style="width:100%;  text-align:center">
-     <div id ="div1" style="float:left;  width:100px;">
-     <div class="text1">酱汁肉</div>
-      <div class="text1">油爆虾</div>
-       <div class="text1">小排</div>
-        <div class="text1">臭豆腐</div>
-         <div class="text1">话梅萝卜</div>
-      <div class="text1">酱鸭</div>
-       <div class="text1">糖藕</div>
-        <div class="text1">狮子头</div>
-        <div class="text1">辣酱</div>
-      <div class="text1">醉鸡</div>
-       <div class="text1" >目鱼卷</div>
-        <div class="text1">扁尖毛豆</div>
-         <div class="text1">海蜇丝</div>
-      <div class="text1">烤鸭</div>
-       <div class="text1">豉油鸡</div>
-        <div class="text1">盐焗鸡</div>
-         <div class="text1">鸭膀</div>
+
+         <%-- 菜品--%>
+     <div id ="divFoods" style="float:left;  width:25%;">
      </div >  
+
     <%-- 减列--%>
-     <div id="divMinus" style="float:left;width:100px; ">     
+     <div id="divMinus" style="float:left;width:25%; ">     
      </div>
+
    <%--  数量列--%>
-     <div id="divNum" style="float:left;width:100px;">     
+     <div id="divNum" style="float:left;width:25%;">     
      </div>   
+
     <%-- 加列--%>
-     <div  id="divAdd" style="float:left;width:100px;"> 
+     <div  id="divAdd" style="float:left;width:25%;"> 
      </div>
      
      </div>

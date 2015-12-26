@@ -1,0 +1,4 @@
+E:\Project\foodOrder\DAL\bin\Release\DAL.dll
+E:\Project\foodOrder\DAL\bin\Release\DAL.pdb
+E:\Project\foodOrder\DAL\obj\Release\DAL.dll
+E:\Project\foodOrder\DAL\obj\Release\DAL.pdb

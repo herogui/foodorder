@@ -1,0 +1,4 @@
+E:\Project\foodOrder\Model\bin\Release\Model.dll
+E:\Project\foodOrder\Model\bin\Release\Model.pdb
+E:\Project\foodOrder\Model\obj\Release\Model.dll
+E:\Project\foodOrder\Model\obj\Release\Model.pdb

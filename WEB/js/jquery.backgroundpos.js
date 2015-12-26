@@ -39,18 +39,18 @@
             ((fx.pos * (fx.end[1][1] - fx.start[1][1]) + fx.start[1][1]) + fx.end[1][2]));
     }
     function initBackgroundPosition(fx) {
-        var elem = $(fx.elem);
-        var bgPos = elem.data(BG_POS);
-        elem.css('backgroundPosition', bgPos);
-        fx.start = parseBackgroundPosition(bgPos);
-        fx.end = parseBackgroundPosition($.fn.jquery >= '1.6' ? fx.end :
-            fx.options.curAnim['backgroundPosition'] || fx.options.curAnim['background-position']);
-        for (var i = 0; i < fx.end.length; i++) {
-            if (fx.end[i][0]) {
-                fx.end[i][1] = fx.start[i][1] + (fx.end[i][0] == '-=' ? -1 : +1) * fx.end[i][1];
-            }
-        }
-        fx.set = true;
+        //var elem = $(fx.elem);
+       // var bgPos = elem.data(BG_POS);
+       // elem.css('backgroundPosition', bgPos);
+        //fx.start = parseBackgroundPosition(bgPos);
+       // fx.end = parseBackgroundPosition($.fn.jquery >= '1.6' ? fx.end :
+//       fx.options.curAnim['backgroundPosition'] || fx.options.curAnim['background-position']);
+//        for (var i = 0; i < fx.end.length; i++) {
+//            if (fx.end[i][0]) {
+//                fx.end[i][1] = fx.start[i][1] + (fx.end[i][0] == '-=' ? -1 : +1) * fx.end[i][1];
+//            }
+//        }
+        //fx.set = true;
     }
     $.fn.animate = function (origAnimate) {
         return function (prop, speed, easing, callback) {
