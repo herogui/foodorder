@@ -5,7 +5,8 @@ function userObj(user,pwd) {
 }
 
 //邮箱
-function sendEmalObj(user, content) {
+function sendEmalObj(shop, user, content) {
+    this.shop = shop;
     this.user = user;
     this.content = content;
 }
