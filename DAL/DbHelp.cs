@@ -22,10 +22,10 @@ namespace DAL
         /// <param name="tabName">表名</param>
         /// <param name="dataMap">数据(列名，值)</param>
         /// <returns></returns>
-        public  string InsertData(string tabName, Dictionary<string, string> dataMap)
+        public int InsertData(string tabName, Dictionary<string, string> dataMap)
         {
-           
-            string str = "";
+
+            int num = 0;
 
             StringBuilder strBld = new StringBuilder();
 
@@ -56,20 +56,20 @@ namespace DAL
                 strBld.Remove(strBld.Length - 1, 1);
                 strBld.Append(")");
 
-                int num = ExecuteNonQuery(strBld.ToString());
+                num = ExecuteNonQuery(strBld.ToString());
 
-                if (num > 0) str += true.ToString();
+                
             }
             catch (Exception exp)
             {
-                str = exp.ToString();
+                
             }
             finally
             {
                 strBld = null;
             }
 
-            return str;
+            return num;
         }
 
         /// <summary>

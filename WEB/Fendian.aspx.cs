@@ -11,6 +11,7 @@ using System.IO;
 using System.Text;
 using System.Web.Services;
 using DAL;
+using System.Data;
 
 public partial class Fendian : System.Web.UI.Page
 {
@@ -38,21 +39,29 @@ public partial class Fendian : System.Web.UI.Page
             {
                 user = Request.QueryString["user"].ToString();
             }
-            else//微信用户
+            else//微信用户  根据手机号获取用户名称
             {
-               // user = getUser(tel);  根据手机号获取用户名称
+                string tel = "13917304101"; //这里改微信用户的手机号为
+                DbHelp db = new DbHelp();
+                DataSet ds = db.Query("select * from tb_user where tel='" + tel + "'");
+                if (null != ds && ds.Tables.Count > 0)
+                {
+                    DataTable dt = ds.Tables[0];
+                    if (dt.Rows.Count > 0)
+                    {
+                        user = dt.Rows[0]["username"].ToString();// 用户名称
+                        shop = dt.Rows[0]["shop"].ToString();// 店名     
+                    }
+                }
             }
 
             if (Request.QueryString["shop"] != null)
             {
-                shop = Request.QueryString["shop"].ToString();
-                if (shop.Equals("福鼎")) limitTime = fudingTme1 + "-" + fudingTme2;
-                else if (shop.Equals("杜六房")) limitTime = liufangTme1 + "-" + liufangTme2 + "或" + liufangTme3 + "-" + liufangTme4;
+                shop = Request.QueryString["shop"].ToString();                
             }
-            else//根据微信用户获取店铺
-            {
-                // shop = getShop(user);  根据手机号获取用户名称
-            }
+
+            if (shop.Equals("福鼎")) limitTime = fudingTme1 + "-" + fudingTme2;
+            else if (shop.Equals("杜六房")) limitTime = liufangTme1 + "-" + liufangTme2 + "或" + liufangTme3 + "-" + liufangTme4;
         }
     }
 
