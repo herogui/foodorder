@@ -17,6 +17,7 @@ public partial class Fendian : System.Web.UI.Page
 {
     public string shop = "";
     public string user = "";
+    public static string userId = "";
 
     /// <summary>
     /// 限定的时间范围
@@ -35,6 +36,12 @@ public partial class Fendian : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
+            if (Session["userId"] != null)
+            {
+                userId = Session["userId"].ToString();
+            }
+
+
             if (Request.QueryString["user"] != null)
             {
                 user = Request.QueryString["user"].ToString();
@@ -63,28 +70,104 @@ public partial class Fendian : System.Web.UI.Page
             if (shop.Equals("福鼎")) limitTime = fudingTme1 + "-" + fudingTme2;
             else if (shop.Equals("杜六房")) limitTime = liufangTme1 + "-" + liufangTme2 + "或" + liufangTme3 + "-" + liufangTme4;
         }
+
+       // setTotalToMail();//test
+    }    
+
+    [WebMethod]
+    public static string getDishes()
+    {
+        string str = "";
+        DbHelp db = new DbHelp();
+        DataSet ds = db.Query("select * from tb_dishes  where IsAction = '1' ");
+        if (null != ds && ds.Tables.Count > 0)
+        {
+            DataTable dt = ds.Tables[0];
+            int num = 0;
+            foreach (DataRow dr in dt.Rows)
+            {
+                str += dr["Name"].ToString() + "@" + dr["Unit"].ToString();
+                if (num < dt.Rows.Count - 1) str += ",";
+            }
+        }
+
+        
+
+        return str;
     }
 
+    /// <summary>
+    /// 保存预定
+    /// </summary>
+    /// <param name="shop"></param>
+    /// <param name="user"></param>
+    /// <param name="content"></param>
+    /// <returns></returns>
+    [WebMethod]
+    public static bool SaveOrder(string shop, string user, string content)
+    {
+        bool isOk = false;
+
+        Dictionary<string, string> dataMap = new Dictionary<string, string>();
+        dataMap.Add("id",Guid.NewGuid().ToString());
+        dataMap.Add("UserId", userId);
+        dataMap.Add("OrderDate", DateTime.Now.ToString());
+        string[] strs = content.Split(';');
+        foreach (string kv in strs)
+        {
+            string[] strs2 = kv.Split(',');
+            string name = strs2[0].Replace("斤","").Trim();
+            if (name.Length < 1) continue;
+
+            string num = strs2[1];
+            dataMap.Add(PinYinConverter.Get(name), num);
+        }
+        DbHelp db = new DbHelp();
+        db.InsertData("tb_order", dataMap);        
+
+        return isOk;
+    }
+
+    /// <summary>
+    /// 发邮件
+    /// </summary>
+    /// <param name="shop"></param>
+    /// <param name="user"></param>
+    /// <param name="content"></param>
+    /// <returns></returns>
     [WebMethod]
     public static bool SendMail(string shop, string user, string content)
     {
         bool isOk = false;
         try
         {
-            string senderServerIp = "smtp.126.com";
+            //string senderServerIp = "smtp.126.com";
 
-            string fromMailAddress = "herogui@126.com";
-            string toMailAddress = "505536350@qq.com";
-            string subjectInfo = "分店:" + shop+"_发送人:" + user + "_" + DateTime.Now.ToLongDateString();
+            string fromMailAddress = System.Configuration.ConfigurationSettings.AppSettings["fromMail"];
+         
+            string subjectInfo = "分店:" + shop + "_发送人:" + user + "_" + DateTime.Now.ToLongDateString();
 
-            string title = " <div>日期：" + DateTime.Now.ToLongDateString() + "&nbsp;&nbsp;&nbsp;&nbsp;分店:" + shop + "</div>";            
-            string bodyInfo = title+content;//正文
-            string mailUsername = "herogui";
-            string mailPassword = "618314guibao"; //发送邮箱的密
+            string title = " <div>日期：" + DateTime.Now.ToLongDateString() + "&nbsp;&nbsp;&nbsp;&nbsp;分店:" + shop + "</div>";
+            string bodyInfo = title + content;//正文
+            string mailUsername = System.Configuration.ConfigurationSettings.AppSettings["username"];
+            string mailPassword = System.Configuration.ConfigurationSettings.AppSettings["password"];//发送邮箱的密
             string mailPort = "25";
 
-            CSendMail email = new CSendMail(senderServerIp, toMailAddress, fromMailAddress, subjectInfo, bodyInfo, mailUsername, mailPassword, mailPort, false, false);
-            email.Send();
+            //获取接收的邮箱
+            DbHelp db = new DbHelp();
+            DataSet ds = db.Query("select Email from tb_email  ");
+            if (null != ds && ds.Tables.Count > 0)
+            {
+                DataTable dt = ds.Tables[0];
+                foreach (DataRow dr in dt.Rows)
+                {
+                    string toMailAddress = dr["Email"].ToString();
+                    CSendMail email = new CSendMail("", toMailAddress, fromMailAddress, subjectInfo, bodyInfo, mailUsername, mailPassword, mailPort, false, false);
+                    email.Send();
+                }
+            }
+
+         
             isOk = true;
         }
         catch (Exception ex)
@@ -92,7 +175,5 @@ public partial class Fendian : System.Web.UI.Page
             isOk = false;
         }
         return isOk;
-    }
-
- 
+    }   
 }

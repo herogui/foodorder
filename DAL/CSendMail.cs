@@ -44,7 +44,7 @@ namespace DAL
                 mMailMessage.IsBodyHtml = true;
                 mMailMessage.BodyEncoding = System.Text.Encoding.UTF8;
                 mMailMessage.Priority = MailPriority.Normal;
-                this.mSenderServerHost = server;
+                //this.mSenderServerHost = server;
                 this.mSenderUsername = username;
                 this.mSenderPassword = password;
                 this.mSenderPort = Convert.ToInt32(port);
@@ -87,20 +87,22 @@ namespace DAL
         ///<summary>
         /// 邮件的发送
         ///</summary>
-        public void Send()
+        public bool Send()
         {
+            bool isok = false;
             try
             {
                 if (mMailMessage != null)
                 {
                     mSmtpClient = new SmtpClient();
                     //mSmtpClient.Host = "smtp." + mMailMessage.From.Host;
-                    mSmtpClient.Host = this.mSenderServerHost;
+                    mSmtpClient.Host = "smtp." + mMailMessage.From.Host;
                     mSmtpClient.Port = this.mSenderPort;
                     mSmtpClient.UseDefaultCredentials = false;
                     mSmtpClient.EnableSsl = this.mEnableSsl;
                     if (this.mEnablePwdAuthentication)
                     {
+                      
                         System.Net.NetworkCredential nc = new System.Net.NetworkCredential(this.mSenderUsername, this.mSenderPassword);
                         //mSmtpClient.Credentials = new System.Net.NetworkCredential(this.mSenderUsername, this.mSenderPassword);
                         //NTLM: Secure Password Authentication in Microsoft Outlook Express
@@ -112,12 +114,16 @@ namespace DAL
                     }
                     mSmtpClient.DeliveryMethod = System.Net.Mail.SmtpDeliveryMethod.Network;
                     mSmtpClient.Send(mMailMessage);
+                    isok = true;
                 }
             }
             catch (Exception ex)
             {
+                isok = true;
                 Console.WriteLine(ex.ToString());
             }
+
+            return isok;
         }
     }
 }

@@ -35,6 +35,7 @@
     <link href="css/main.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
+
     <!-- 代码 开始 -->
     <div id="main" class="header" style="margin-right: auto;height:30px; visibility:collapse">
         <ul class="menu" id="ui" >         
@@ -55,35 +56,35 @@
      </div >  
 
     <%-- 减列--%>
-     <div id="divMinus" style="float:left;width:25%; ">     
+     <div id="divMinus" style="float:left;width:20%; ">     
      </div>
 
    <%--  数量列--%>
-     <div id="divNum" style="float:left;width:25%;">     
+     <div id="divNum" style="float:left;width:20%;">     
      </div>   
 
     <%-- 加列--%>
-     <div  id="divAdd" style="float:left;width:25%;"> 
+     <div  id="divAdd" style="float:left;width:20%;"> 
      </div>
      
      </div>
 
           <!-- 代码 底部 -->
           <div style="margin-top:50px">
-          <div style="margin-top:100px;float:left; margin-left:10%">
+          <div style="margin-top:100px;float:left; margin-left:5%">
             <input type="button" value="重置"  onclick="repeat()" style="width:160px;height:50px;" />
           </div>
-          <div style ="margin-top:100px;float:right;margin-right:10%">
+          <div style ="margin-top:100px;float:right;margin-right:5%">
            <input type="button" value="提交" onclick="sendMailFendian()" style="width:160px;height:50px;" /></div>
           </div>
 
          <%-- 菜品--%>
-     <div id ="divCaiping" style="float:left;  width:25%;">
+     <div id ="divCaiping" style="float:left;  width:20%;">
           
      </div >  
 
    <%--  数量列--%>
-     <div id="divShuliang" style="float:left;width:25%;">     
+     <div id="divShuliang" style="float:left;width:20%;">     
 
      </div>  
 

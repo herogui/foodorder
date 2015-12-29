@@ -6,6 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using DAL;
 using System.Data;
+using System.Text;
 
 public partial class Caidang : System.Web.UI.Page
 {
@@ -16,11 +17,11 @@ public partial class Caidang : System.Web.UI.Page
         {
             setDataSource();
         }
-    }
+    }   
 
     void setDataSource()
     {
-        setDataSource("");
+        setDataSource("where IsAction = '1'");
     }
 
     void setDataSource(string condition)
@@ -57,12 +58,17 @@ public partial class Caidang : System.Web.UI.Page
     {
         DbHelp db = new DbHelp();
         string strID = gvInfo.DataKeys[e.RowIndex].Value.ToString();//获取主键列的值       
-        int num = db.ExecuteNonQuery("delete from tb_dishes where id = '" + strID + "'");
-        if (num > 0)
+       
+        //
+        Dictionary<string, string> data = new Dictionary<string, string>();
+        data.Add("IsAction", "0");
+        bool isSuc = db.UpdateDataWkt("tb_dishes", data, " where id = '" + strID + "'");
+
+        if (isSuc)
         {
             string script = "";
             script += "<script language='javascript'>";
-            script += "alert('数据保存成功!');";
+            script += "alert('数据删除成功!');";
             script += "  opener.__doPostBack('" + this + "','');";
             script += "  this.close();";
             script += "</script>";
@@ -78,7 +84,7 @@ public partial class Caidang : System.Web.UI.Page
     /// <param name="e"></param>
     protected void btnRefresh_Click(object sender, EventArgs e)
     {
-        string condition = "where  1=1 ";
+        string condition = "where   IsAction = '1' ";
         if (!this.txtKeyWord.Text.Trim().Equals("请输入关键字"))
         {
             if (this.txtKeyWord.Text.Trim().Length > 0)

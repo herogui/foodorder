@@ -1,58 +1,91 @@
-<%@ page language="C#" autoeventwireup="true" inherits="_Default, App_Web_2tvzq3qk" %>
+ï»¿<%@ page language="C#" validaterequest="false" autoeventwireup="true" inherits="_Default, App_Web_ftq3y0yq" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+
+
+<html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
-    <title>¶ÅÁù·¿Á¬ËøÃÅµê¶©²ËÏµÍ³</title>
-    <style type="text/css">
-      html, body, #main {
-        height:100%;
-        width:100%;
-        margin:0;
-        padding:0;       
-      }    
-    </style>
-
-    <link rel="stylesheet" href="css/menu.css" type="text/css" />
-    <link href="css/main.css" rel="stylesheet" type="text/css" />
-
-    <script src="js/main.js" type="text/javascript"></script>
-    <script src="js/jquery-1.11.2.min.js" type="text/javascript"></script>
-    <script src="js/jquery.backgroundpos.js" type="text/javascript"></script>
-    <script src="js/menu.js" type="text/javascript"></script>
-
+<title>æœå…­æˆ¿è¿é”é—¨åº—è®¢èœç³»ç»Ÿ</title>
+<link href="css/longin.css" rel="stylesheet" type="text/css" media="all" />  
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+  
 </head>
 <body>
-    <!-- ´úÂë ¿ªÊ¼ -->
-    <div id="main" class="header" style="margin-right: auto;height:100px;">
-        <ul class="menu" id="ui" >         
-            <li><a href="#" target="_self">¸£¶¦¶©²Ë</a></li>
-            <li><a href="#" target="_self">Áù·¿¶©²Ë</a></li>
-             <li><a href="#" target="_self">Ô¤¶¨µ÷ÁÏ</a></li>          
-        </ul>     
-        
-    </div>
-    
-     <div id="content" style="width:100%;  text-align:center">
+<!-- contact-form -->	
+<div class="message warning">
+<div >
+	<div class="login-head">
+		<h1>ç™»å½•ç•Œé¢</h1>
+		 		
+	</div>
+		<form id="Form1" runat="server">
+			<div>
+				<%--<input id="txtUser" type="text" class="text" value="admin" ><a href="#" class=" icon user"></a>--%>
+                ç”¨æˆ·å:<asp:TextBox ID="txtUser" runat="server" Width="100px" Height="20px"  BorderWidth="1px"></asp:TextBox>
+			</div>
+				
+			<div  style="margin-top:20px">
+				<%--<input id = "txtPwd" type="password" value="admin" > <a href="#" class="icon lock"></a>--%>
+                  å¯†     ç :<asp:TextBox ID="TextPwd" TextMode="password" runat="server"  Width="100px"  Height="20px"  BorderWidth="1px"></asp:TextBox>
+			</div>		
+			<div   style="margin-top:20px; margin-left:170px">
+				<%--<input type="submit" id = "btnLogin" onclick="login()"  value="ç™»   å½•" >--%>
+                <asp:Button ID="btnLogin" Width="150px" runat="server"  Text="ç™»å½•" OnClick="btLogin_Click" />
+			
+			</div>
+				
+		</form>
+		</div>					
+	</div>
+	
 
-         <%-- ²ËÆ·--%>
-     <div id ="divFoods" style="float:left;  width:25%;">
-     </div >  
-
-    <%-- ¼õÁĞ--%>
-     <div id="divMinus" style="float:left;width:25%; ">     
-     </div>
-
-   <%--  ÊıÁ¿ÁĞ--%>
-     <div id="divNum" style="float:left;width:25%;">     
-     </div>   
-
-    <%-- ¼ÓÁĞ--%>
-     <div  id="divAdd" style="float:left;width:25%;"> 
-     </div>
-     
-     </div>
-          
 </body>
 </html>
+
+
+  <script src="js/my.js" type="text/javascript"></script>
+    <script src="js/obj.js" type="text/javascript"></script>
+<!-- -->
+<script type="text/javascript">    var __links = document.querySelectorAll('a'); function __linkClick(e) { parent.window.postMessage(this.href, '*'); }; for (var i = 0, l = __links.length; i < l; i++) { if (__links[i].getAttribute('data-t') == '_blank') { __links[i].addEventListener('click', __linkClick, false); } }</script>
+    <script src="js/jquery-1.11.2.min.js" type="text/javascript"></script>
+<script type="text/javascript">    $(document).ready(function (c) {
+        $('.alert-close').on('click', function (c) {
+            $('.message').fadeOut('slow', function (c) {
+                $('.message').remove();
+            });
+        });
+    });
+</script>
+
+<%--ç™»å½•ç•Œé¢è·³è½¬--%>
+<script  type="text/javascript">
+    function login() {
+        var myjs = new my();
+        var user = document.getElementById("txtUser").value;
+        var pwd = document.getElementById("txtPwd").value;
+        var obj = new userObj(user, pwd);
+        var dataJson = myjs.Obj2Json(obj);
+        myjs.Ajax("Home.aspx/Submit", dataJson, loginSucHandle, loginErrorHandle);
+    }
+
+    var tip = "ç”¨æˆ·åæˆ–å¯†ç é”™è¯¯!";
+    function loginSucHandle(e) {
+
+        if (e.d.toString().length > 0) {
+            var user = document.getElementById("txtUser").value;
+            var shop = e.d.toString()
+            if (shop == "æœå…­")
+                window.location.href = "duliu.aspx?user=" + user + "&shop=" + shop + "&backurl=" + window.location.href;
+            else if (shop == "ç¦é¼")
+                window.location.href = "fuding.aspx?user=" + user + "&shop=" + shop + "&backurl=" + window.location.href;
+        }
+        else { alert(tip); }
+    }
+
+    function loginErrorHandle() {
+        alert(tip);
+    }
+    </script>
+

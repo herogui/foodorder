@@ -1,4 +1,4 @@
-<%@ Page Language="C#"     validateRequest="false"  AutoEventWireup="true" CodeFile="Fendian.aspx.cs" Inherits="Fendian" %>
+<%@ page language="C#" validaterequest="false" autoeventwireup="true" inherits="Fendian, App_Web_ftq3y0yq" %>
 
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -15,19 +15,19 @@
       }    
     </style>
    <%-- 获取配置文件数据--%>
-    <script type="text/javascript">
-        var user = "<%=user%>";
-        var shop = "<%=shop%>";
+    <script type="text/javascript">     
+       var user = "<%=user%>";
+       var shop = "<%=shop%>";
 
         var limitTime = "<%=limitTime%>";
 
-        var fudingTme1 = "<%=fudingTme1%>";
-        var fudingTme2 = "<%=fudingTme2%>";
+       var fudingTme1 = "<%=fudingTme1%>";
+       var fudingTme2 = "<%=fudingTme2%>"; 
 
-        var liufangTme1 = "<%=liufangTme1%>";
-        var liufangTme2 = "<%=liufangTme2%>";
-        var liufangTme3 = "<%=liufangTme3%>";
-        var liufangTme4 = "<%=liufangTme4%>";
+       var liufangTme1 = "<%=liufangTme1%>";
+       var liufangTme2 = "<%=liufangTme2%>";
+       var liufangTme3 = "<%=liufangTme3%>";
+       var liufangTme4 = "<%=liufangTme4%>";
          </script>
 
 
@@ -35,6 +35,7 @@
     <link href="css/main.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
+
     <!-- 代码 开始 -->
     <div id="main" class="header" style="margin-right: auto;height:30px; visibility:collapse">
         <ul class="menu" id="ui" >         
@@ -55,35 +56,35 @@
      </div >  
 
     <%-- 减列--%>
-     <div id="divMinus" style="float:left;width:25%; ">     
+     <div id="divMinus" style="float:left;width:20%; ">     
      </div>
 
    <%--  数量列--%>
-     <div id="divNum" style="float:left;width:25%;">     
+     <div id="divNum" style="float:left;width:20%;">     
      </div>   
 
     <%-- 加列--%>
-     <div  id="divAdd" style="float:left;width:25%;"> 
+     <div  id="divAdd" style="float:left;width:20%;"> 
      </div>
      
      </div>
 
           <!-- 代码 底部 -->
           <div style="margin-top:50px">
-          <div style="margin-top:100px;float:left; margin-left:10%">
+          <div style="margin-top:100px;float:left; margin-left:5%">
             <input type="button" value="重置"  onclick="repeat()" style="width:160px;height:50px;" />
           </div>
-          <div style ="margin-top:100px;float:right;margin-right:10%">
+          <div style ="margin-top:100px;float:right;margin-right:5%">
            <input type="button" value="提交" onclick="sendMailFendian()" style="width:160px;height:50px;" /></div>
           </div>
 
          <%-- 菜品--%>
-     <div id ="divCaiping" style="float:left;  width:25%;">
+     <div id ="divCaiping" style="float:left;  width:20%;">
           
      </div >  
 
    <%--  数量列--%>
-     <div id="divShuliang" style="float:left;width:25%;">     
+     <div id="divShuliang" style="float:left;width:20%;">     
 
      </div>  
 

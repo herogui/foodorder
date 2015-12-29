@@ -1,0 +1,4 @@
+select ShopName, sum(JiangZhiRou) as  ½´Ö­Èâ,sum(YouBaoXia) as  ÓÍ±¬Ïº,sum(XiaoPai) as  Ğ¡ÅÅ,sum(ChouDouFu) as  ³ô¶¹¸¯,sum(HuaMeiLuoBo) as  »°Ã·ÂÜ²· from tb_order o,tb_shop s,tb_user u   where  1 =1    and o.UserID = u.id 
+  and u.shop = s.id 
+  and (orderDate >'2015-12-27  15:00:00'  and orderDate <'2015-12-27  22:00:00')
+    group by s.ShopName 

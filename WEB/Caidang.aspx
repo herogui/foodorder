@@ -29,13 +29,14 @@
                                         <asp:Label ID="lblID" runat="server" Text="<%# Container.DataItemIndex + 1 %>"></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
+                                <asp:BoundField DataField="Name" HeaderText="品名" ItemStyle-HorizontalAlign="Center" />
                                 <asp:BoundField DataField="Code" HeaderText="编号" ItemStyle-HorizontalAlign="Center" />
                                 <asp:BoundField DataField="ProductCode" HeaderText="货号" ItemStyle-HorizontalAlign="Center" />
-                                  <asp:BoundField DataField="Name" HeaderText="品名" ItemStyle-HorizontalAlign="Center" />
+                                  
                                 <asp:BoundField DataField="Unit" HeaderText="单位" ItemStyle-HorizontalAlign="Center" />
                                 <asp:BoundField DataField="producer" HeaderText="生产商" ItemStyle-HorizontalAlign="Center" />   
                                  <asp:TemplateField HeaderText="编辑">
-                                    <ItemTemplate>
+                                                   <ItemTemplate>
                                         <img alt="编辑" src="images/edit.gif" onclick="javascript:return FunOpenEditFrm('<%# Eval("id")%>');"
                                             style="cursor: hand;" />
                                     </ItemTemplate>
@@ -43,7 +44,7 @@
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="删除">
                                     <ItemTemplate>
-                                        <asp:ImageButton ID="btnDelete" runat="server" ImageUrl="images/del.gif" CommandName="Delete" />
+                                         <asp:ImageButton ID="btnDelete" runat="server" ImageUrl="images/del.gif" CommandName="Delete" />
                                     </ItemTemplate>
                                     <ItemStyle HorizontalAlign="Center" Width="40px" />
                                 </asp:TemplateField>                             

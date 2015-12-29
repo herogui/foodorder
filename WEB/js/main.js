@@ -1,5 +1,6 @@
 ﻿var txtName = "txtNum";
 var foods = [];
+var myjs = new my();
 window.onload = function () {
 
     //初始化食物列表
@@ -7,40 +8,38 @@ window.onload = function () {
 
     //初始化页面
     initUI();
-
-    //初始化列
-    initCol();
-
 }
 
 //初始化食物列表
-function initFoods() {
+function initFoods() {   
     
-    foods.push("酱汁肉");
-    foods.push("油爆虾");
-    foods.push("小排");
-    foods.push("臭豆腐");
-    foods.push("话梅萝卜");
-    foods.push("酱鸭");
-    foods.push("糖藕");
-    foods.push("狮子头");
-    foods.push("辣酱");
-    foods.push("醉鸡");
-    foods.push("目鱼卷");
-    foods.push("扁尖毛豆");
-    foods.push("海蜇丝");
-    foods.push("烤鸭");
-    foods.push("豉油鸡");
-    foods.push("盐焗鸡");
-    foods.push("鸭膀");
+    var dataJson = "";
+    myjs.Ajax("Fendian.aspx/getDishes", dataJson, getDishesSucHandle, getDishesErrorHandle);
 
-    var divFoods = document.getElementById("divFoods");
-    var htmlNum = "";
-    for (var i = 0; i < foods.length; i++) {
-        htmlNum += "<div id=\"subDivFood"+i+"\"  class=\"text1\">" + foods[i]+"个" + "</div>";
+    function getDishesSucHandle(e) {
+        var strs = e.d.toString().split(",");
+        var units = [];
+        for (var j = 0; j < strs.length; j++) {
+
+            var name = strs[j].split("@")[0];
+            if (name.length < 1) continue;
+            foods.push(name);
+            units.push(strs[j].split("@")[1]);
+        }
+      
+        var divFoods = document.getElementById("divFoods");
+        var htmlNum = "";
+        for (var i = 0; i < foods.length; i++) {
+            htmlNum += "<div id=\"subDivFood" + i + "\"  class=\"text1\">" + getMyString2(foods[i])+ units[i] + "</div>";
+        }
+        divFoods.innerHTML = htmlNum;
+
+        //初始化列
+        initCol();
     }
-    divFoods.innerHTML = htmlNum;
-
+    function getDishesErrorHandle(e) {
+        
+    }
 }
 
 //加号事件
@@ -87,7 +86,8 @@ function initCol() {
     var divAdd = document.getElementById("divAdd");
     var htmlAdd = "";
     for (var i = 0; i < foods.length; i++) {
-        htmlAdd += "<div><input type=\"button\" value=\"+\" onclick=\"add('"+i+"')\"  class=\"text2\"/></div>";
+        htmlAdd += "<div><input type=\"button\" value=\"增加\" onclick=\"add('" + i + "')\"  class=\"text2\"/></div>"
+        //htmlAdd += "<div><img  src=\"images/jiahao.png\" id=\"增加\" onclick=\"add('" + i + "')\"/><div>";
     }
     divAdd.innerHTML = htmlAdd;
 
@@ -95,8 +95,10 @@ function initCol() {
     var divMinus = document.getElementById("divMinus");
     var htmlMinus = "";
     for (var i = 0; i < foods.length; i++) {
-        htmlMinus += " <div><input type=\"button\" value=\"-\"    onclick=\"minus('" + i + "')\"   class=\"text4\"/></div>";
+       htmlMinus += " <div><input type=\"button\" value=\"减少\"    onclick=\"minus('" + i + "')\"   class=\"text4\"/></div>";
+       // htmlMinus += "<div><img  src=\"images/jianhao.png\" id=\"减少\" onclick=\"minus('" + i + "')\"/><div>";
     }
+   
     divMinus.innerHTML = htmlMinus;
 }
 
@@ -182,44 +184,91 @@ function sendMailFendian() {
                 alert("超出订菜时间,请在" + limitTime + "前完成订菜！");
                 return;
             }
-        }
+        }   
+   
     
-    var myjs = new my();
-
-    var divEmailContent = document.getElementById("divEmailContent");
-    var content = getContent();
+   //发送到邮箱
+    var content = getContentDiv();
     var obj = new sendEmalObj(shop, user, content)//user,shop 从前端界面传递过来
     var dataJson = myjs.Obj2Json(obj);
     myjs.Ajax("Fendian.aspx/SendMail", dataJson, sendEmailSucHandle, sendEmailErrorHandle);
+
+    //数据库保存
+    var obj2 = new sendEmalObj(shop, user, getContentList())//user,shop 从前端界面传递过来
+    var dataJson2 = myjs.Obj2Json(obj2);
+    myjs.Ajax("Fendian.aspx/SaveOrder", dataJson2, saveOrderSucHandle, saveOrderErrorHandle);
 
     var tip = "发送邮箱";
     function sendEmailSucHandle(e) {
         if (e.d.toString() == "true") {
             alert(tip+"成功");
         }
-        else alert(tip + "失败，请联系系统管理员!");
+        else alert(tip + "失败，请联系系统管理员!");    
     }
 
     function sendEmailErrorHandle(e) {
         alert(tip + "失败，请联系系统管理员!");
     }
+
+    function saveOrderSucHandle(e) {
+
+    }
+
+    function saveOrderErrorHandle(e) {
+
+    }
 }
 
 //获取邮件内容
-function getContent() {
+function getContentDiv() {
  var html = "<div>";
     for (var i = 0; i < foods.length; i++) {
         var subDivFood = document.getElementById("subDivFood" + i).innerHTML;
         var sum = document.getElementById(txtName + i).value;;
-        html += "<div style ='width:100px'>";
-        html += "<div style = >";
-        html += subDivFood + ",&nbsp;&nbsp;&nbsp;&nbsp;" + sum;
-       html += "</div>";
-       html += "<hr style=\"border:1px dotted #036\" />"
+        html += "<div>";    
+        html += subDivFood + getMyString(sum);
+        html += "</div>";      
     }
     
    html += "</div>";
     return html;
+}
+
+//单位的间隔
+function getMyString2(str) {
+    var res = str;
+
+    var dis = "&nbsp;&nbsp;&nbsp;";
+    var num = 7 - str.length;
+    for (var i = 0; i < num; i++) {
+        res += dis;
+    }
+    return res;
+}
+//数量的间隔
+ function getMyString(str)
+    {
+        var res = str;
+
+        var dis = "&nbsp;&nbsp;&nbsp;";
+        var num =7 - str.length; //
+        for (var i = 0; i < num; i++) {
+            res = dis+res;
+        }
+
+
+        return res;
+    }
+
+function getContentList() {
+    var List = "";
+    for (var i = 0; i < foods.length; i++) {
+        var subDivFood = document.getElementById("subDivFood" + i).innerHTML;
+        var sum = document.getElementById(txtName + i).value;
+        List += subDivFood + "," + sum+";";
+    }
+  
+    return List;
 }
 
 //获取邮件内容()左右结构
@@ -230,7 +279,7 @@ function getContent2() {
     for (var i = 0; i < foods.length; i++) {
         var subDivFood = document.getElementById("subDivFood" + i).innerHTML;
         html += "<div>";
-        html += subDivFood;
+        html += getMyString(subDivFood);
         html += "</div>";
     }
     html += "<\div>";

@@ -10,6 +10,7 @@ using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using System.Collections.Generic;
 using DAL;
+using System.Text;
 
 public partial class Cost_bgLand_add : System.Web.UI.Page
 {
@@ -100,22 +101,86 @@ public partial class Cost_bgLand_add : System.Web.UI.Page
         string Unit = this.txtUnit.Text.Trim();
         string producer = this.txtproducer.Text.Trim();
 
+        DbHelp db = new DbHelp();
+
         Dictionary<string, string> dataMap = new Dictionary<string, string>();
-        if(strID.Length<1)
-        dataMap.Add("id", Guid.NewGuid().ToString());
-        else dataMap.Add("id", strID);
         dataMap.Add("Code", Code);
         dataMap.Add("ProductCode", ProductCode);
         dataMap.Add("Name", Name);
         dataMap.Add("Unit", Unit);
         dataMap.Add("producer", producer);
-        DbHelp db = new DbHelp();
-        int num = db.InsertData("tb_dishes", dataMap);
-        if (num > 0)
+
+        bool isok = false;
+        if (strID.Length < 1)//添加
+        {
+            //重复的不添加
+            DataSet  ds = db.Query("select * from tb_dishes where name ='" + Name + "' and IsAction = 1");
+            if (null!=ds&&ds.Tables[0].Rows.Count>0)
+            {
+                string script = "";
+                script += "<script language='javascript'>";
+                script += "alert('菜品已经存在,不能添加!');";            
+                script += "</script>";
+                Page.RegisterStartupScript("", script);
+                return;
+            }
+            else
+            {
+                //没有激活就激活
+                DataSet ds2 = db.Query("select * from tb_dishes where name ='" + Name + "' and IsAction = 0");
+                if (null != ds2 && ds2.Tables[0].Rows.Count > 0)
+                {
+                    string id = ds2.Tables[0].Rows[0]["id"].ToString();
+                    dataMap.Add("IsAction", "1");
+                    isok = db.UpdateDataWkt("tb_dishes", dataMap, "where id ='" + id + "'");
+                }
+                else
+                {
+                    string ColName = PinYinConverter.Get(Name);
+                    dataMap.Add("id", Guid.NewGuid().ToString());
+                    dataMap.Add("IsAction", "1");
+                    dataMap.Add("ColName", ColName);
+                    int num = db.InsertData("tb_dishes", dataMap);                   
+
+                    if (num > 0)
+                    {
+                        isok = true;
+                        //添加列到数据表中
+                        StringBuilder strbld = new StringBuilder();
+                        strbld.Append("if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[tb_order]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)");
+                        strbld.Append("if (NOT exists ( select * from dbo.syscolumns where name = '" + ColName + "' and id in ");
+                        strbld.Append("(select id from dbo.sysobjects where id = object_id(N'[dbo].[tb_order]') and OBJECTPROPERTY(id, N'IsUserTable') = 1))");
+                        strbld.Append(") ");
+                        strbld.Append("ALTER TABLE tb_order ADD " + ColName + " int NULL");
+                        string sql = strbld.ToString();
+                        int num2 = db.ExecuteNonQuery(sql);
+                    }
+                }
+            }
+        }
+        else
+        {
+            //编辑
+            isok = db.UpdateDataWkt("tb_dishes", dataMap, "where id ='" + strID + "'");
+        }
+
+
+
+        if (isok)
         {
             string script = "";
             script += "<script language='javascript'>";
             script += "alert('数据保存成功!');";
+            script += "  opener.__doPostBack('" + "btnRefresh" + "','');";
+            script += "  this.close();";
+            script += "</script>";
+            Page.RegisterStartupScript("RefreshSourceWindowAndCloseMe", script);
+        }
+        else
+        {
+            string script = "";
+            script += "<script language='javascript'>";
+            script += "alert('数据保存失败!');";
             script += "  opener.__doPostBack('" + "btnRefresh" + "','');";
             script += "  this.close();";
             script += "</script>";

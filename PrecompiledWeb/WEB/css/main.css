@@ -1,8 +1,23 @@
-﻿.text1{ height:30px;margin-top:50px;font-size:large;}/*第一列*/
-.text2{width:60px;height:30px; font-size:x-large; margin-top:50px; margin-left:30px;}/*第二列*/
-.text3{ height:30px;margin-top:50px;font-size:small;}/*第三列*/
-.text4{width:60px;height:30px; font-size:x-large; margin-top:50px; margin-left:30px;}/*第四列*/
+﻿.text1{ height:50px;margin-top:80px;font-size:x-large;}/*第一列*/
+.text2{width:100px;height:50px; font-size:x-large; margin-top:80px; margin-left:30px;}/*第二列*/
+.text3{ height:50px;margin-top:80px;font-size:small;}/*第三列*/
+.text4{width:100px;height:50px; font-size:x-large; margin-top:80px; margin-left:30px;}/*第四列*/
 
 
 .input{width:60px; text-align:center}
+
+
+/*邮箱格式*/
+.myspan
+{
+    margin-left:100px;
+    }
+    
+    .divEmail
+{
+    margin-top:100px;
+    }
+
+
+div.scroll{width:100%;height:100%;overflow:auto;SCROLLBAR-FACE-COLOR: #F1FEFE; SCROLLBAR-HIGHLIGHT-COLOR: #6EB9B2; SCROLLBAR-SHADOW-COLOR: #6EB9B2; SCROLLBAR-3DLIGHT-COLOR: #ebebe4; SCROLLBAR-ARROW-COLOR: #2FA09B; SCROLLBAR-TRACK-COLOR: #f4f4f0; SCROLLBAR-DARKSHADOW-COLOR: #ebebe4;margin-top:0px;}
 
