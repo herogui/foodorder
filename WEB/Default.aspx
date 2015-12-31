@@ -2,7 +2,6 @@
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-
 <html>
 <head>
 <title>杜六房连锁门店订菜系统</title>
@@ -23,14 +22,14 @@
 		<form id="Form1" runat="server">
 			<div>
 				<%--<input id="txtUser" type="text" class="text" value="admin" ><a href="#" class=" icon user"></a>--%>
-                用户名:<asp:TextBox ID="txtUser" runat="server" Width="100px" Height="20px"  BorderWidth="1px"></asp:TextBox>
+                用户名:<asp:TextBox ID="txtUser" runat="server" Text="" Width="100px" Height="20px"  BorderWidth="1px"></asp:TextBox>
 			</div>
 				
-			<div  style="margin-top:20px">
+			<div  style="margin-top:20px">   
 				<%--<input id = "txtPwd" type="password" value="admin" > <a href="#" class="icon lock"></a>--%>
-                  密     码:<asp:TextBox ID="TextPwd" TextMode="password" runat="server"  Width="100px"  Height="20px"  BorderWidth="1px"></asp:TextBox>
+                  密     码:<asp:TextBox ID="TextPwd" TextMode="password" Text="admin" runat="server"  Width="100px"  Height="20px"  BorderWidth="1px"></asp:TextBox>
 			</div>		
-			<div   style="margin-top:20px; margin-left:170px">
+			<div   style="margin-top:20px; margin-left:100px">
 				<%--<input type="submit" id = "btnLogin" onclick="login()"  value="登   录" >--%>
                 <asp:Button ID="btnLogin" Width="150px" runat="server"  Text="登录" OnClick="btLogin_Click" />
 			

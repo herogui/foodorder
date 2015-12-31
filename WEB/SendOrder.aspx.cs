@@ -13,7 +13,7 @@ using System.Web.Services;
 using DAL;
 using System.Data;
 
-public partial class Fendian : System.Web.UI.Page
+public partial class SendOrder : System.Web.UI.Page
 {
     public string shop = "";
     public string user = "";
@@ -30,7 +30,7 @@ public partial class Fendian : System.Web.UI.Page
     public string liufangTme1 = System.Configuration.ConfigurationSettings.AppSettings["liufangTme1"];
     public string liufangTme2 = System.Configuration.ConfigurationSettings.AppSettings["liufangTme2"];
     public string liufangTme3 = System.Configuration.ConfigurationSettings.AppSettings["liufangTme3"];
-    public string liufangTme4 = System.Configuration.ConfigurationSettings.AppSettings["liufangTme4"];  
+    public string liufangTme4 = System.Configuration.ConfigurationSettings.AppSettings["liufangTme4"];
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -64,15 +64,15 @@ public partial class Fendian : System.Web.UI.Page
 
             if (Request.QueryString["shop"] != null)
             {
-                shop = Request.QueryString["shop"].ToString();                
+                shop = Request.QueryString["shop"].ToString();
             }
 
             if (shop.Equals("福鼎")) limitTime = fudingTme1 + "-" + fudingTme2;
             else if (shop.Equals("杜六房")) limitTime = liufangTme1 + "-" + liufangTme2 + "或" + liufangTme3 + "-" + liufangTme4;
         }
 
-       // setTotalToMail();//test
-    }    
+        // setTotalToMail();//test
+    }
 
     [WebMethod]
     public static string getDishes()
@@ -91,7 +91,7 @@ public partial class Fendian : System.Web.UI.Page
             }
         }
 
-        
+
 
         return str;
     }
@@ -109,21 +109,21 @@ public partial class Fendian : System.Web.UI.Page
         bool isOk = false;
 
         Dictionary<string, string> dataMap = new Dictionary<string, string>();
-        dataMap.Add("id",Guid.NewGuid().ToString());
+        dataMap.Add("id", Guid.NewGuid().ToString());
         dataMap.Add("UserId", userId);
         dataMap.Add("OrderDate", DateTime.Now.ToString());
         string[] strs = content.Split(';');
         foreach (string kv in strs)
         {
             string[] strs2 = kv.Split(',');
-            string name = strs2[0].Replace("斤","").Trim();
+            string name = strs2[0].Replace("斤", "").Trim();
             if (name.Length < 1) continue;
 
             string num = strs2[1];
             dataMap.Add(PinYinConverter.Get(name), num);
         }
         DbHelp db = new DbHelp();
-        db.InsertData("tb_order", dataMap);        
+        db.InsertData("tb_order", dataMap);
 
         return isOk;
     }
@@ -144,7 +144,7 @@ public partial class Fendian : System.Web.UI.Page
             //string senderServerIp = "smtp.126.com";
 
             string fromMailAddress = System.Configuration.ConfigurationSettings.AppSettings["fromMail"];
-         
+
             string subjectInfo = "分店:" + shop + "_发送人:" + user + "_" + DateTime.Now.ToLongDateString();
 
             string title = " <div>日期：" + DateTime.Now.ToLongDateString() + "&nbsp;&nbsp;&nbsp;&nbsp;分店:" + shop + "</div>";
@@ -167,7 +167,7 @@ public partial class Fendian : System.Web.UI.Page
                 }
             }
 
-         
+
             isOk = true;
         }
         catch (Exception ex)
@@ -175,5 +175,5 @@ public partial class Fendian : System.Web.UI.Page
             isOk = false;
         }
         return isOk;
-    }   
+    }
 }

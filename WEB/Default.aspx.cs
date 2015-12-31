@@ -30,7 +30,7 @@ public partial class _Default : System.Web.UI.Page
             {
                 string shop = dt.Rows[0]["shopname"].ToString();// 店名      
                 Session["userId"] = dt.Rows[0]["id"].ToString();
-                Response.Redirect("Fendian.aspx?user=" + this.txtUser.Text.Trim() + "&shop=" + shop + "");
+                Response.Redirect("SendOrder.aspx?user=" + this.txtUser.Text.Trim() + "&shop=" + shop + "");
             }
             {
                 string script = "";
