@@ -1,33 +1,30 @@
-<%@ Page Language="C#" AutoEventWireup="true" CodeFile="add.aspx.cs" Inherits="Cost_bgLand_add" %>
+Ôªø<%@ page language="C#" autoeventwireup="true" inherits="addFuding, App_Web_lpi0exvd" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-    <title>ÃÌº”≤À∆∑</title>
+<head id="Head1" runat="server">
+    <title>Ê∑ªÂä†ËèúÂìÅ</title>
     <link href="css/css.css" rel="stylesheet" type="text/css" />
 
     <script language="javascript" type="text/javascript">
- function closeWindow()
-    {
-        window.close();
-    }
-    
-function isNumber(obj)
-{ 
-     if ((isNaN(obj.value))||(obj.value<0))
-     {
-        return false;
-     }
-     return  true;
-}
+        function closeWindow() {
+            window.close();
+        }
 
-function check() {
-    if (document.getElementById("txtName").value == "") {
-        alert("«Î ‰»Î∆∑√˚£°");
-        document.getElementById("txtName").focus();
-        return false;
-    }
-}
+        function isNumber(obj) {
+            if ((isNaN(obj.value)) || (obj.value < 0)) {
+                return false;
+            }
+            return true;
+        }
+
+        function check() {
+            if (document.getElementById("txtName").value == "") {
+                alert("ËØ∑ËæìÂÖ•ÂìÅÂêçÔºÅ");
+                document.getElementById("txtName").focus();
+                return false;
+            }
+        }
  
  </script>
 
@@ -45,7 +42,7 @@ function check() {
                          <table width="100%" border="0" cellpadding="2" cellspacing="1" bgcolor="#CCCCCC">
                           <tr>
                                 <td width="28%" align="right" bgcolor="#DEEFEC">
-                                    ∆∑√˚ £∫</td>
+                                    ÂìÅÂêç Ôºö</td>
                                 <td width="72%" align="left" bgcolor="#DEEFEC">
                                     <asp:TextBox ID="txtName" runat="server"  Width="400px"></asp:TextBox><span
                                         style="color: #ff0000">*</span>
@@ -53,14 +50,14 @@ function check() {
                             </tr>
                             <tr>
                                 <td width="28%" align="right" bgcolor="#DEEFEC">
-                                    ±‡∫≈ £∫</td>
+                                    ÁºñÂè∑ Ôºö</td>
                                 <td width="72%" align="left" bgcolor="#DEEFEC">
                                     <asp:TextBox ID="txtCode" runat="server"    MaxLength="200" Width="400px"></asp:TextBox>
                                 </td>
                             </tr>
                             <tr>
                                 <td width="28%" align="right" bgcolor="#DEEFEC">
-                                    ªı∫≈ £∫</td>
+                                    Ë¥ßÂè∑ Ôºö</td>
                                 <td width="72%" align="left" bgcolor="#DEEFEC">
                                     <asp:TextBox ID="txtProductCode" runat="server"     Width="400px"></asp:TextBox>
                                 </td>
@@ -68,14 +65,14 @@ function check() {
                            
                             <tr>
                                 <td width="28%" align="right" bgcolor="#DEEFEC">
-                                    µ•Œª £∫</td>
+                                    Âçï‰Ωç Ôºö</td>
                                 <td width="72%" align="left" bgcolor="#DEEFEC">
                                     <asp:TextBox ID="txtUnit" runat="server"  Width="400px"></asp:TextBox>
                                 </td>
                             </tr>
                             <tr>
                                 <td width="28%" align="right" bgcolor="#DEEFEC">
-                                    …˙≤˙…Ã £∫</td>
+                                    Áîü‰∫ßÂïÜ Ôºö</td>
                                 <td width="72%" align="left" bgcolor="#DEEFEC">
                                     <asp:TextBox ID="txtproducer" runat="server"  Width="400px"></asp:TextBox>
                                 </td>
@@ -85,9 +82,9 @@ function check() {
                 </tr>
                 <tr>
                     <td height="57" align="center">
-                        <asp:Button ID="btnSave" runat="server" CssClass="sub_bg" Text="±£ ¥Ê" OnClick="btnSave_Click"
+                        <asp:Button ID="btnSave" runat="server" CssClass="sub_bg" Text="‰øù Â≠ò" OnClick="btnSave_Click"
                             OnClientClick="return check()" />
-                        <input id="btnCancel" name="Submit22" type="button" class="sub_bg" value="πÿ ±’" onclick="closeWindow()" />
+                        <input id="btnCancel" name="Submit22" type="button" class="sub_bg" value="ÂÖ≥ Èó≠" onclick="closeWindow()" />
                     </td>
                 </tr>
             </table>

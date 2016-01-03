@@ -1,3 +1,5 @@
+ï»¿
+
 using System;
 using System.Data;
 using System.Configuration;
@@ -12,29 +14,29 @@ using System.Collections.Generic;
 using DAL;
 using System.Text;
 
-public partial class Cost_bgLand_add : System.Web.UI.Page
+public partial class addFuding : System.Web.UI.Page
 {
     /// <summary>
-    /// Êı¾İ±à¼­µÄÖ÷¼üid
+    /// æ•°æ®ç¼–è¾‘çš„ä¸»é”®id
     /// </summary>
     public string strID = "";
 
     /// <summary>
-    /// ÓÃ»§id  
+    /// ç”¨æˆ·id  
     /// </summary>
     public string currentUserID = "";
    
     /// <summary>
-    /// ä¯ÀÀÈ¨ÏŞ
+    /// æµè§ˆæƒé™
     /// </summary>
     public bool canLookFlag = true;
     /// <summary>
-    /// ±êÌâ
+    /// æ ‡é¢˜
     /// </summary>
-    public string OpertionTitle = "Ìí¼Ó";
+    public string OpertionTitle = "æ·»åŠ ";
 
     /// <summary>
-    /// Ò³Ãæ¼ÓÔØÊÂ¼ş
+    /// é¡µé¢åŠ è½½äº‹ä»¶
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
@@ -52,7 +54,7 @@ public partial class Cost_bgLand_add : System.Web.UI.Page
         }
         else
         {
-            OpertionTitle = "±à¼­";
+            OpertionTitle = "ç¼–è¾‘";
             if (strID.Length == 36)
             {
                 //canLookFlag = OConfig.CheckUserHaveFunctionRight(currentUserID, "020102", "2");
@@ -70,11 +72,11 @@ public partial class Cost_bgLand_add : System.Web.UI.Page
     }
 
     /// <summary>
-    /// Ò³Ãæ±à¼­×´Ì¬´ÓÊı¾İ¿â¶ÁÈ¡¼ÇÂ¼¼ÓÔØÔÚÒ³ÃæÉÏ
+    /// é¡µé¢ç¼–è¾‘çŠ¶æ€ä»æ•°æ®åº“è¯»å–è®°å½•åŠ è½½åœ¨é¡µé¢ä¸Š
     /// </summary>
     public void SetFormInfo()
     {
-        string sql = "select * from tb_dishes where id = '" + strID + "'";
+        string sql = "select * from tb_dishesFuding where id = '" + strID + "'";
         DbHelp db = new DbHelp();
         DataSet ds = db.Query(sql);
         if (null != ds && ds.Tables.Count > 0)
@@ -89,7 +91,7 @@ public partial class Cost_bgLand_add : System.Web.UI.Page
     }
 
     /// <summary>
-    /// µã»÷±£´æ»òÕßÌí¼Ó
+    /// ç‚¹å‡»ä¿å­˜æˆ–è€…æ·»åŠ 
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
@@ -111,28 +113,28 @@ public partial class Cost_bgLand_add : System.Web.UI.Page
         dataMap.Add("producer", producer);
 
         bool isok = false;
-        if (strID.Length < 1)//Ìí¼Ó
+        if (strID.Length < 1)//æ·»åŠ 
         {
-            //ÖØ¸´µÄ²»Ìí¼Ó
-            DataSet  ds = db.Query("select * from tb_dishes where name ='" + Name + "' and IsAction = 1");
+            //é‡å¤çš„ä¸æ·»åŠ 
+            DataSet  ds = db.Query("select * from tb_dishesFuding where name ='" + Name + "' and IsAction = 1");
             if (null!=ds&&ds.Tables[0].Rows.Count>0)
             {
                 string script = "";
                 script += "<script language='javascript'>";
-                script += "alert('²ËÆ·ÒÑ¾­´æÔÚ,²»ÄÜÌí¼Ó!');";            
+                script += "alert('èœå“å·²ç»å­˜åœ¨,ä¸èƒ½æ·»åŠ !');";            
                 script += "</script>";
                 Page.RegisterStartupScript("", script);
                 return;
             }
             else
             {
-                //Ã»ÓĞ¼¤»î¾Í¼¤»î
-                DataSet ds2 = db.Query("select * from tb_dishes where name ='" + Name + "' and IsAction = 0");
+                //æ²¡æœ‰æ¿€æ´»å°±æ¿€æ´»
+                DataSet ds2 = db.Query("select * from tb_dishesFuding where name ='" + Name + "' and IsAction = 0");
                 if (null != ds2 && ds2.Tables[0].Rows.Count > 0)
                 {
                     string id = ds2.Tables[0].Rows[0]["id"].ToString();
                     dataMap.Add("IsAction", "1");
-                    isok = db.UpdateDataWkt("tb_dishes", dataMap, "where id ='" + id + "'");
+                    isok = db.UpdateDataWkt("tb_dishesFuding", dataMap, "where id ='" + id + "'");
                 }
                 else
                 {
@@ -140,18 +142,18 @@ public partial class Cost_bgLand_add : System.Web.UI.Page
                     dataMap.Add("id", Guid.NewGuid().ToString());
                     dataMap.Add("IsAction", "1");
                     dataMap.Add("ColName", ColName);
-                    int num = db.InsertData("tb_dishes", dataMap);                   
+                    int num = db.InsertData("tb_dishesFuding", dataMap);                   
 
                     if (num > 0)
                     {
                         isok = true;
-                        //Ìí¼ÓÁĞµ½Êı¾İ±íÖĞ
+                        //æ·»åŠ åˆ—åˆ°æ•°æ®è¡¨ä¸­
                         StringBuilder strbld = new StringBuilder();
-                        strbld.Append("if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[tb_order]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)");
+                        strbld.Append("if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[tb_orderFuding]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)");
                         strbld.Append("if (NOT exists ( select * from dbo.syscolumns where name = '" + ColName + "' and id in ");
-                        strbld.Append("(select id from dbo.sysobjects where id = object_id(N'[dbo].[tb_order]') and OBJECTPROPERTY(id, N'IsUserTable') = 1))");
+                        strbld.Append("(select id from dbo.sysobjects where id = object_id(N'[dbo].[tb_orderFuding]') and OBJECTPROPERTY(id, N'IsUserTable') = 1))");
                         strbld.Append(") ");
-                        strbld.Append("ALTER TABLE tb_order ADD " + ColName + " int NULL");
+                        strbld.Append("ALTER TABLE tb_orderFuding ADD " + ColName + " int NULL");
                         string sql = strbld.ToString();
                         int num2 = db.ExecuteNonQuery(sql);
                     }
@@ -160,17 +162,15 @@ public partial class Cost_bgLand_add : System.Web.UI.Page
         }
         else
         {
-            //±à¼­
-            isok = db.UpdateDataWkt("tb_dishes", dataMap, "where id ='" + strID + "'");
+            //ç¼–è¾‘
+            isok = db.UpdateDataWkt("tb_dishesFuding", dataMap, "where id ='" + strID + "'");
         }
-
-
 
         if (isok)
         {
             string script = "";
             script += "<script language='javascript'>";
-            script += "alert('Êı¾İ±£´æ³É¹¦!');";
+            script += "alert('æ•°æ®ä¿å­˜æˆåŠŸ!');";
             script += "  opener.__doPostBack('" + "btnRefresh" + "','');";
             script += "  this.close();";
             script += "</script>";
@@ -180,7 +180,7 @@ public partial class Cost_bgLand_add : System.Web.UI.Page
         {
             string script = "";
             script += "<script language='javascript'>";
-            script += "alert('Êı¾İ±£´æÊ§°Ü!');";
+            script += "alert('æ•°æ®ä¿å­˜å¤±è´¥!');";
             script += "  opener.__doPostBack('" + "btnRefresh" + "','');";
             script += "  this.close();";
             script += "</script>";

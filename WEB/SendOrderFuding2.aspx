@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="SendOrder.aspx.cs" Inherits="SendOrder" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="SendOrderFuding2.aspx.cs" Inherits="SendOrderFuding2" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -13,7 +13,7 @@
 </head>
 <body>
 <!-- contact-form -->	
- <div  style="text-align:center"><%=user%>,您正在为<span style="font-weight: bold"><%=shop%></span>订菜,请在<span style="font-weight: bold"><%=limitTime%></span>前完成预定！！</div>
+ <div  style="text-align:center">您正在为<span style="font-weight: bold"><%=shop%></span>进行福鼎订菜,请在<span style="font-weight: bold"><%=limitTime%></span>前完成预定！！</div>
 
 <div class="message warning">`   
 		<form id="Form1" runat="server">
@@ -29,21 +29,17 @@
     <script type="text/javascript">
         var user = "<%=user%>";
         var shop = "<%=shop%>";
-
+        var myuserid = "<%=myuserid%>";
+        var data = "<%=data%>";
         var limitTime = "<%=limitTime%>";
 
         var fudingTme1 = "<%=fudingTme1%>";
         var fudingTme2 = "<%=fudingTme2%>";
-
-        var liufangTme1 = "<%=liufangTme1%>";
-        var liufangTme2 = "<%=liufangTme2%>";
-        var liufangTme3 = "<%=liufangTme3%>";
-        var liufangTme4 = "<%=liufangTme4%>";
          </script>
 
 <script src="js/obj.js" type="text/javascript"></script>
     <script src="js/my.js" type="text/javascript"></script>
-    <script src="js/main.js" type="text/javascript"></script>
+    <script src="js/mainFuding2.js" type="text/javascript"></script>
     <script src="js/jquery-1.11.2.min.js" type="text/javascript"></script>
     <script src="js/jquery.backgroundpos.js" type="text/javascript"></script>
     <script src="js/menu.js" type="text/javascript"></script>

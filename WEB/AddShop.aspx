@@ -1,9 +1,11 @@
-﻿<%@ page language="C#" autoeventwireup="true" inherits="addMail, App_Web_lpi0exvd" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="AddShop.aspx.cs" Inherits="AddShop" %>
+
+
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">
-    <title>添加邮箱</title>
+    <title>添加分店</title>
     <link href="css/css.css" rel="stylesheet" type="text/css" />
 
     <script language="javascript" type="text/javascript">
@@ -11,17 +13,10 @@
             window.close();
         }
 
-        function isNumber(obj) {
-            if ((isNaN(obj.value)) || (obj.value < 0)) {
-                return false;
-            }
-            return true;
-        }
-
         function check() {
-            if (document.getElementById("txtEmail").value == "") {
-                alert("请输入邮箱地址！");
-                document.getElementById("txtEmail").focus();
+            if (document.getElementById("txtShopName").value == "") {
+                alert("请输入店名！");
+                document.getElementById("txtShopName").focus();
                 return false;
             }
         }
@@ -42,9 +37,9 @@
                          <table width="100%" border="0" cellpadding="2" cellspacing="1" bgcolor="#CCCCCC">
                           <tr>
                                 <td width="28%" align="right" bgcolor="#DEEFEC">
-                                    邮箱地址 ：</td>
+                                    店名 ：</td>
                                 <td width="72%" align="left" bgcolor="#DEEFEC">
-                                    <asp:TextBox ID="txtEmail" runat="server"  Width="400px"></asp:TextBox><span
+                                    <asp:TextBox ID="txtShopName" runat="server"  Width="400px"></asp:TextBox><span
                                         style="color: #ff0000">*</span>
                                 </td>
                             </tr>
@@ -57,12 +52,26 @@
                             </tr>
                             <tr>
                                 <td width="28%" align="right" bgcolor="#DEEFEC">
-                                    登录名 ：</td>
+                                    地址 ：</td>
                                 <td width="72%" align="left" bgcolor="#DEEFEC">
-                                    <asp:TextBox ID="txtLoginName" runat="server"     Width="400px"></asp:TextBox>
+                                    <asp:TextBox ID="txtAdrress" runat="server"     Width="400px"></asp:TextBox>
                                 </td>
                             </tr>
-                             
+                           
+                            <tr>
+                                <td width="28%" align="right" bgcolor="#DEEFEC">
+                                    电话 ：</td>
+                                <td width="72%" align="left" bgcolor="#DEEFEC">
+                                    <asp:TextBox ID="txttel" runat="server"  Width="400px"></asp:TextBox>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="28%" align="right" bgcolor="#DEEFEC">
+                                    负责人 ：</td>
+                                <td width="72%" align="left" bgcolor="#DEEFEC">
+                                    <asp:TextBox ID="txtLeader" runat="server"  Width="400px"></asp:TextBox>
+                                </td>
+                            </tr>                           
                         </table>
                     </td>
                 </tr>

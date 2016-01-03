@@ -1,9 +1,10 @@
-﻿<%@ page language="C#" autoeventwireup="true" inherits="addMail, App_Web_lpi0exvd" %>
+﻿<%@ page language="C#" autoeventwireup="true" inherits="AddDuliu, App_Web_lpi0exvd" %>
+
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">
-    <title>添加邮箱</title>
+    <title>添加菜品</title>
     <link href="css/css.css" rel="stylesheet" type="text/css" />
 
     <script language="javascript" type="text/javascript">
@@ -19,9 +20,9 @@
         }
 
         function check() {
-            if (document.getElementById("txtEmail").value == "") {
-                alert("请输入邮箱地址！");
-                document.getElementById("txtEmail").focus();
+            if (document.getElementById("txtName").value == "") {
+                alert("请输入品名！");
+                document.getElementById("txtName").focus();
                 return false;
             }
         }
@@ -42,9 +43,9 @@
                          <table width="100%" border="0" cellpadding="2" cellspacing="1" bgcolor="#CCCCCC">
                           <tr>
                                 <td width="28%" align="right" bgcolor="#DEEFEC">
-                                    邮箱地址 ：</td>
+                                    品名 ：</td>
                                 <td width="72%" align="left" bgcolor="#DEEFEC">
-                                    <asp:TextBox ID="txtEmail" runat="server"  Width="400px"></asp:TextBox><span
+                                    <asp:TextBox ID="txtName" runat="server"  Width="400px"></asp:TextBox><span
                                         style="color: #ff0000">*</span>
                                 </td>
                             </tr>
@@ -57,12 +58,26 @@
                             </tr>
                             <tr>
                                 <td width="28%" align="right" bgcolor="#DEEFEC">
-                                    登录名 ：</td>
+                                    货号 ：</td>
                                 <td width="72%" align="left" bgcolor="#DEEFEC">
-                                    <asp:TextBox ID="txtLoginName" runat="server"     Width="400px"></asp:TextBox>
+                                    <asp:TextBox ID="txtProductCode" runat="server"     Width="400px"></asp:TextBox>
                                 </td>
                             </tr>
-                             
+                           
+                            <tr>
+                                <td width="28%" align="right" bgcolor="#DEEFEC">
+                                    单位 ：</td>
+                                <td width="72%" align="left" bgcolor="#DEEFEC">
+                                    <asp:TextBox ID="txtUnit" runat="server"  Width="400px"></asp:TextBox>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="28%" align="right" bgcolor="#DEEFEC">
+                                    生产商 ：</td>
+                                <td width="72%" align="left" bgcolor="#DEEFEC">
+                                    <asp:TextBox ID="txtproducer" runat="server"  Width="400px"></asp:TextBox>
+                                </td>
+                            </tr>                           
                         </table>
                     </td>
                 </tr>

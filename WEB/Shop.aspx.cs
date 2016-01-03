@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -6,9 +7,8 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using DAL;
 using System.Data;
-using System.Text;
 
-public partial class Caidang : System.Web.UI.Page
+public partial class Shop : System.Web.UI.Page
 {
   
     protected void Page_Load(object sender, EventArgs e)
@@ -17,17 +17,17 @@ public partial class Caidang : System.Web.UI.Page
         {
             setDataSource();
         }
-    }   
+    }
 
     void setDataSource()
     {
-        setDataSource("where IsAction = '1'");
+        setDataSource("");
     }
 
     void setDataSource(string condition)
     {
         DbHelp db = new DbHelp();
-        DataSet ds = db.Query("select * from tb_dishes  " + condition);
+        DataSet ds = db.Query("select * from tb_shop  " + condition);
         if (null != ds && ds.Tables.Count > 0)
         {
             gvInfo.DataSource = ds.Tables[0].DefaultView;
@@ -58,13 +58,8 @@ public partial class Caidang : System.Web.UI.Page
     {
         DbHelp db = new DbHelp();
         string strID = gvInfo.DataKeys[e.RowIndex].Value.ToString();//获取主键列的值       
-       
-        //
-        Dictionary<string, string> data = new Dictionary<string, string>();
-        data.Add("IsAction", "0");
-        bool isSuc = db.UpdateDataWkt("tb_dishes", data, " where id = '" + strID + "'");
-
-        if (isSuc)
+        int num = db.ExecuteNonQuery("delete from tb_shop where id = '" + strID + "'");
+        if (num > 0)
         {
             string script = "";
             script += "<script language='javascript'>";
@@ -84,12 +79,12 @@ public partial class Caidang : System.Web.UI.Page
     /// <param name="e"></param>
     protected void btnRefresh_Click(object sender, EventArgs e)
     {
-        string condition = "where   IsAction = '1' ";
+        string condition = "where  1=1 ";
         if (!this.txtKeyWord.Text.Trim().Equals("请输入关键字"))
         {
             if (this.txtKeyWord.Text.Trim().Length > 0)
             {
-                condition += " and (Code like '%" + this.txtKeyWord.Text.Trim() + "%'" + "  or  ProductCode like '%" + this.txtKeyWord.Text.Trim() + "%'" + "  or  producer like '%" + this.txtKeyWord.Text.Trim() + "%'" + "  or  Name like '%" + this.txtKeyWord.Text.Trim() + "%')";
+                condition += " and (Code like '%" + this.txtKeyWord.Text.Trim() + "%'" + "  or  ShopName like '%" + this.txtKeyWord.Text.Trim() + "%'" + "  or  Leader like '%" + this.txtKeyWord.Text.Trim() + "%'" + "  or  Adrress like '%" + this.txtKeyWord.Text.Trim() + "%')";
             }
         }
        

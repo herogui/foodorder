@@ -1,4 +1,4 @@
-﻿<%@ page language="C#" autoeventwireup="true" inherits="OrderView, App_Web_hfm0fgtu" %>
+﻿<%@ page language="C#" autoeventwireup="true" inherits="OrderView, App_Web_lpi0exvd" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -33,7 +33,8 @@
                                 </asp:TemplateField>
                                 <asp:BoundField DataField="Name" HeaderText="品名" ItemStyle-HorizontalAlign="Center" />   
                                 <asp:BoundField DataField="Num" HeaderText="订量" ItemStyle-HorizontalAlign="Center" />   
-                                  <asp:BoundField DataField="Unit" HeaderText="单位" ItemStyle-HorizontalAlign="Center" />                                  
+                                  <asp:BoundField DataField="Unit" HeaderText="单位" ItemStyle-HorizontalAlign="Center" />    
+                                    <asp:BoundField DataField="ShopNum" HeaderText="份数" ItemStyle-HorizontalAlign="Center" />                                
                             </Columns>
                             <AlternatingRowStyle CssClass="tr1" />
                             <HeaderStyle CssClass="fixed" />

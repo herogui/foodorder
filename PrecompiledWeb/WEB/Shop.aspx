@@ -1,9 +1,9 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Caidang.aspx.cs" Inherits="Caidang" %>
+﻿<%@ page language="C#" autoeventwireup="true" inherits="Shop, App_Web_lpi0exvd" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
+<head id="Head1" runat="server">
     <title></title>
     <link href="css/css.css" rel="stylesheet" type="text/css" />
 
@@ -29,14 +29,14 @@
                                         <asp:Label ID="lblID" runat="server" Text="<%# Container.DataItemIndex + 1 %>"></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                <asp:BoundField DataField="Name" HeaderText="品名" ItemStyle-HorizontalAlign="Center" />
-                                <asp:BoundField DataField="Code" HeaderText="编号" ItemStyle-HorizontalAlign="Center" />
-                                <asp:BoundField DataField="ProductCode" HeaderText="货号" ItemStyle-HorizontalAlign="Center" />
-                                  
-                                <asp:BoundField DataField="Unit" HeaderText="单位" ItemStyle-HorizontalAlign="Center" />
-                                <asp:BoundField DataField="producer" HeaderText="生产商" ItemStyle-HorizontalAlign="Center" />   
+                               
+                                <asp:BoundField DataField="ShopName" HeaderText="店名" ItemStyle-HorizontalAlign="Center" />
+                                 <asp:BoundField DataField="Code" HeaderText="编号" ItemStyle-HorizontalAlign="Center" />
+                                  <asp:BoundField DataField="Adrress" HeaderText="地址" ItemStyle-HorizontalAlign="Center" />  
+                                    <asp:BoundField DataField="tel" HeaderText="电话" ItemStyle-HorizontalAlign="Center" />                              
+                                    <asp:BoundField DataField="Leader" HeaderText="负责人" ItemStyle-HorizontalAlign="Center" />                               
                                  <asp:TemplateField HeaderText="编辑">
-                                                   <ItemTemplate>
+                                    <ItemTemplate>
                                         <img alt="编辑" src="images/edit.gif" onclick="javascript:return FunOpenEditFrm('<%# Eval("id")%>');"
                                             style="cursor: hand;" />
                                     </ItemTemplate>
@@ -44,7 +44,7 @@
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="删除">
                                     <ItemTemplate>
-                                         <asp:ImageButton ID="btnDelete" runat="server" ImageUrl="images/del.gif" CommandName="Delete" />
+                                        <asp:ImageButton ID="btnDelete" runat="server" ImageUrl="images/del.gif" CommandName="Delete" />
                                     </ItemTemplate>
                                     <ItemStyle HorizontalAlign="Center" Width="40px" />
                                 </asp:TemplateField>                             
@@ -61,13 +61,12 @@
                                 <th>
                                     编号</th>
                                 <th>
-                                    货号</th>        
+                                    店名</th>        
                                     <th>
-                                    品名</th>
-                                <th>
-                                    单位</th>      
+                                    电话</th>          
                                      <th>
-                                    生产商</th>                              
+                                    负责人</th>      
+                                                                           
                             </tr>
                         </table>
                         <%  } %>
@@ -86,7 +85,7 @@
 
            var myLeft = (window.screen.width - 570) / 2;
            var myTop = (window.screen.height - 183) / 2;
-           childWin1 = window.open('add.aspx?id=' + id + '', 'width=570,height=183,top=' + myTop + ',left=' + myLeft + ',scrollbars=no');
+           childWin1 = window.open('addShop.aspx?id=' + id + '', 'width=570,height=183,top=' + myTop + ',left=' + myLeft + ',scrollbars=no');
            return false;
 
        }
@@ -100,7 +99,7 @@
 
            var myLeft = (window.screen.width - 590) / 2;
            var myTop = (window.screen.height - 185) / 2;
-           childWin = window.open('add.aspx?width=590,height=185,top=' + myTop + ',left=' + myLeft + ',scrollbars=no');
+           childWin = window.open('addShop.aspx?width=590,height=185,top=' + myTop + ',left=' + myLeft + ',scrollbars=no');
            return false;
 
        }

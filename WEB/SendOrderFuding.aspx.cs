@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,10 +12,11 @@ using System.Web.Services;
 using DAL;
 using System.Data;
 
-public partial class SendOrder : System.Web.UI.Page
+public partial class SendOrderFuding : System.Web.UI.Page
 {
     public string shop = "";
     public string user = "";
+    public string myuserid = "";
     public static string userId = "";
 
     /// <summary>
@@ -27,18 +27,14 @@ public partial class SendOrder : System.Web.UI.Page
     public string fudingTme1 = System.Configuration.ConfigurationSettings.AppSettings["fudingTme1"];
     public string fudingTme2 = System.Configuration.ConfigurationSettings.AppSettings["fudingTme2"];
 
-    public string liufangTme1 = System.Configuration.ConfigurationSettings.AppSettings["liufangTme1"];
-    public string liufangTme2 = System.Configuration.ConfigurationSettings.AppSettings["liufangTme2"];
-    public string liufangTme3 = System.Configuration.ConfigurationSettings.AppSettings["liufangTme3"];
-    public string liufangTme4 = System.Configuration.ConfigurationSettings.AppSettings["liufangTme4"];
-
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
         {
-            if (Session["userId"] != null)
+            if (Request.QueryString["userId"] != null)
             {
-                userId = Session["userId"].ToString();
+                userId = Request.QueryString["userId"].ToString();
+                myuserid = userId;
             }
 
 
@@ -48,9 +44,9 @@ public partial class SendOrder : System.Web.UI.Page
             }
             else//微信用户  根据手机号获取用户名称
             {
-                string tel = "13917304101"; //这里改微信用户的手机号为
+                string weixingId = "q123"; //这里改微信用户的ID为
                 DbHelp db = new DbHelp();
-                DataSet ds = db.Query("select * from tb_user where tel='" + tel + "'");
+                DataSet ds = db.Query("select * from tb_user where weixingId='" + weixingId + "'");
                 if (null != ds && ds.Tables.Count > 0)
                 {
                     DataTable dt = ds.Tables[0];
@@ -67,8 +63,7 @@ public partial class SendOrder : System.Web.UI.Page
                 shop = Request.QueryString["shop"].ToString();
             }
 
-            if (shop.Equals("福鼎")) limitTime = fudingTme1 + "-" + fudingTme2;
-            else if (shop.Equals("杜六房")) limitTime = liufangTme1 + "-" + liufangTme2 + "或" + liufangTme3 + "-" + liufangTme4;
+            limitTime = fudingTme1 + "-" + fudingTme2;
         }
 
         // setTotalToMail();//test
@@ -79,7 +74,7 @@ public partial class SendOrder : System.Web.UI.Page
     {
         string str = "";
         DbHelp db = new DbHelp();
-        DataSet ds = db.Query("select * from tb_dishes  where IsAction = '1' ");
+        DataSet ds = db.Query("select * from tb_dishesFuding  where IsAction = '1' ");
         if (null != ds && ds.Tables.Count > 0)
         {
             DataTable dt = ds.Tables[0];
@@ -115,15 +110,15 @@ public partial class SendOrder : System.Web.UI.Page
         string[] strs = content.Split(';');
         foreach (string kv in strs)
         {
-            string[] strs2 = kv.Split(',');
-            string name = strs2[0].Replace("斤", "").Trim();
+            string[] strs2 = kv.Split('@');
+            string name = strs2[0];
             if (name.Length < 1) continue;
 
             string num = strs2[1];
             dataMap.Add(PinYinConverter.Get(name), num);
         }
         DbHelp db = new DbHelp();
-        db.InsertData("tb_order", dataMap);
+        db.InsertData("tb_orderFuding", dataMap);
 
         return isOk;
     }
@@ -145,9 +140,9 @@ public partial class SendOrder : System.Web.UI.Page
 
             string fromMailAddress = System.Configuration.ConfigurationSettings.AppSettings["fromMail"];
 
-            string subjectInfo = "分店:" + shop + "_发送人:" + user + "_" + DateTime.Now.ToLongDateString();
+            string subjectInfo = "分店:" + shop + "_" + user + "_福鼎订菜" + DateTime.Now.ToLongDateString();
 
-            string title = " <div>日期：" + DateTime.Now.ToLongDateString() + "&nbsp;&nbsp;&nbsp;&nbsp;分店:" + shop + "</div>";
+            string title = " <div>" + DateTime.Now.ToLongDateString() + "&nbsp;&nbsp;&nbsp;&nbsp;" + shop + "_" + user + "_福鼎订菜</div>";
             string bodyInfo = title + content;//正文
             string mailUsername = System.Configuration.ConfigurationSettings.AppSettings["username"];
             string mailPassword = System.Configuration.ConfigurationSettings.AppSettings["password"];//发送邮箱的密

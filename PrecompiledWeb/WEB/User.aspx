@@ -1,7 +1,4 @@
-﻿<%@ page language="C#" autoeventwireup="true" inherits="Email, App_Web_lpi0exvd" %>
-
-
-
+﻿<%@ page language="C#" autoeventwireup="true" inherits="User, App_Web_lpi0exvd" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -32,9 +29,11 @@
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                
-                                <asp:BoundField DataField="Email" HeaderText="邮箱地址" ItemStyle-HorizontalAlign="Center" />
-                                 <asp:BoundField DataField="Code" HeaderText="编号" ItemStyle-HorizontalAlign="Center" />
-                                  <asp:BoundField DataField="LoginName" HeaderText="登录名" ItemStyle-HorizontalAlign="Center" />                                
+                                <asp:BoundField DataField="userName" HeaderText="用户名" ItemStyle-HorizontalAlign="Center" />  
+                                 <asp:BoundField DataField="pwd" HeaderText="密码" ItemStyle-HorizontalAlign="Center" />                              
+                                  <asp:BoundField DataField="shop" HeaderText="所在店名" ItemStyle-HorizontalAlign="Center" />   
+                                  <asp:BoundField DataField="tel" HeaderText="电话" ItemStyle-HorizontalAlign="Center" />  
+                                  <asp:BoundField DataField="weixingId" HeaderText="微信ID" ItemStyle-HorizontalAlign="Center" />                               
                                  <asp:TemplateField HeaderText="编辑">
                                     <ItemTemplate>
                                         <img alt="编辑" src="images/edit.gif" onclick="javascript:return FunOpenEditFrm('<%# Eval("id")%>');"
@@ -59,11 +58,13 @@
                                 <th>
                                     序号</th>
                                 <th>
-                                    编号</th>
-                                <th>
-                                    邮箱地址</th>        
+                                    用户名</th>                            
                                     <th>
-                                    姓名</th>                                                        
+                                    所在店名</th>      
+                                    <th>
+                                    电话</th>     
+                                    <th>
+                                    微信ID</th>                                                       
                             </tr>
                         </table>
                         <%  } %>
@@ -82,7 +83,7 @@
 
            var myLeft = (window.screen.width - 570) / 2;
            var myTop = (window.screen.height - 183) / 2;
-           childWin1 = window.open('addMail.aspx?id=' + id + '', 'width=570,height=183,top=' + myTop + ',left=' + myLeft + ',scrollbars=no');
+           childWin1 = window.open('addUser.aspx?id=' + id + '', 'width=570,height=183,top=' + myTop + ',left=' + myLeft + ',scrollbars=no');
            return false;
 
        }
@@ -96,7 +97,7 @@
 
            var myLeft = (window.screen.width - 590) / 2;
            var myTop = (window.screen.height - 185) / 2;
-           childWin = window.open('addMail.aspx?width=590,height=185,top=' + myTop + ',left=' + myLeft + ',scrollbars=no');
+           childWin = window.open('addUser.aspx?width=590,height=185,top=' + myTop + ',left=' + myLeft + ',scrollbars=no');
            return false;
 
        }

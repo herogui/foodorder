@@ -15,7 +15,10 @@
 <div class="publicNav" id="publicNav" data="二级导航栏">
     <div class="publicNav_nav">
         <p><a href="OrderView.aspx" class="currHover">订单汇总</a></p>
-        <p class="hot"><a href="Caidang.aspx"class="currHover">菜品管理</a></p>
+        <p><a href="CaidangDuliu.aspx"class="currHover">杜六房菜品管理</a></p>
+         <p><a href="CaidangFuding.aspx"class="currHover">福鼎菜品管理</a></p>
+         <p><a href="shop.aspx"class="currHover">分店管理</a></p>
+          <p><a href="user.aspx"class="currHover">用户管理</a></p>
         <p><a href="Email.aspx" class="currHover">邮箱管理</a></p>
        
         <div class="publicNavHover">

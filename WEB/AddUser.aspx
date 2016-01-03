@@ -1,33 +1,23 @@
-<%@ page language="C#" autoeventwireup="true" inherits="Cost_bgLand_add, App_Web_hfm0fgtu" %>
+Ôªø<%@ Page Language="C#" AutoEventWireup="true" CodeFile="AddUser.aspx.cs" Inherits="AddUser" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-    <title>ÃÌº”≤À∆∑</title>
+<head id="Head1" runat="server">
+    <title>Ê∑ªÂä†Áî®Êà∑</title>
     <link href="css/css.css" rel="stylesheet" type="text/css" />
 
     <script language="javascript" type="text/javascript">
- function closeWindow()
-    {
-        window.close();
-    }
-    
-function isNumber(obj)
-{ 
-     if ((isNaN(obj.value))||(obj.value<0))
-     {
-        return false;
-     }
-     return  true;
-}
+        function closeWindow() {
+            window.close();
+        }
 
-function check() {
-    if (document.getElementById("txtName").value == "") {
-        alert("«Î ‰»Î∆∑√˚£°");
-        document.getElementById("txtName").focus();
-        return false;
-    }
-}
+        function check() {
+            if (document.getElementById("txtuserName").value == "") {
+                alert("ËØ∑ËæìÂÖ•Áî®Êà∑ÂêçÔºÅ");
+                document.getElementById("txtuserName").focus();
+                return false;
+            }
+        }
  
  </script>
 
@@ -45,39 +35,48 @@ function check() {
                          <table width="100%" border="0" cellpadding="2" cellspacing="1" bgcolor="#CCCCCC">
                           <tr>
                                 <td width="28%" align="right" bgcolor="#DEEFEC">
-                                    ∆∑√˚ £∫</td>
+                                    Áî®Êà∑Âêç Ôºö</td>
                                 <td width="72%" align="left" bgcolor="#DEEFEC">
-                                    <asp:TextBox ID="txtName" runat="server"  Width="400px"></asp:TextBox><span
+                                    <asp:TextBox ID="txtuserName" runat="server"  Width="400px"></asp:TextBox><span
+                                        style="color: #ff0000">*</span>
+                                </td>
+                            </tr>
+                             <tr>
+                                <td width="28%" align="right" bgcolor="#DEEFEC">
+                                    ÂØÜÁ†Å Ôºö</td>
+                                <td width="72%" align="left" bgcolor="#DEEFEC">
+                                    <asp:TextBox ID="txtpwd" runat="server"  Width="400px"></asp:TextBox><span
                                         style="color: #ff0000">*</span>
                                 </td>
                             </tr>
                             <tr>
                                 <td width="28%" align="right" bgcolor="#DEEFEC">
-                                    ±‡∫≈ £∫</td>
+                                    ÁºñÂè∑ Ôºö</td>
                                 <td width="72%" align="left" bgcolor="#DEEFEC">
                                     <asp:TextBox ID="txtCode" runat="server"    MaxLength="200" Width="400px"></asp:TextBox>
                                 </td>
                             </tr>
                             <tr>
                                 <td width="28%" align="right" bgcolor="#DEEFEC">
-                                    ªı∫≈ £∫</td>
+                                    ÊâÄÂú®Â∫óÂêç Ôºö</td>
                                 <td width="72%" align="left" bgcolor="#DEEFEC">
-                                    <asp:TextBox ID="txtProductCode" runat="server"     Width="400px"></asp:TextBox>
+                                        <asp:DropDownList ID="txtshop" runat="server" onchange="changes();" AutoPostBack="True"
+                                        OnTextChanged="shop_SelectedIndexChanged"></asp:DropDownList>
                                 </td>
                             </tr>
                            
                             <tr>
                                 <td width="28%" align="right" bgcolor="#DEEFEC">
-                                    µ•Œª £∫</td>
+                                    ÁîµËØù Ôºö</td>
                                 <td width="72%" align="left" bgcolor="#DEEFEC">
-                                    <asp:TextBox ID="txtUnit" runat="server"  Width="400px"></asp:TextBox>
+                                    <asp:TextBox ID="txttel" runat="server"  Width="400px"></asp:TextBox>
                                 </td>
                             </tr>
                             <tr>
                                 <td width="28%" align="right" bgcolor="#DEEFEC">
-                                    …˙≤˙…Ã £∫</td>
+                                    ÂæÆ‰ø°ID Ôºö</td>
                                 <td width="72%" align="left" bgcolor="#DEEFEC">
-                                    <asp:TextBox ID="txtproducer" runat="server"  Width="400px"></asp:TextBox>
+                                    <asp:TextBox ID="txtweixingId" runat="server"  Width="400px"></asp:TextBox>
                                 </td>
                             </tr>                           
                         </table>
@@ -85,9 +84,9 @@ function check() {
                 </tr>
                 <tr>
                     <td height="57" align="center">
-                        <asp:Button ID="btnSave" runat="server" CssClass="sub_bg" Text="±£ ¥Ê" OnClick="btnSave_Click"
+                        <asp:Button ID="btnSave" runat="server" CssClass="sub_bg" Text="‰øù Â≠ò" OnClick="btnSave_Click"
                             OnClientClick="return check()" />
-                        <input id="btnCancel" name="Submit22" type="button" class="sub_bg" value="πÿ ±’" onclick="closeWindow()" />
+                        <input id="btnCancel" name="Submit22" type="button" class="sub_bg" value="ÂÖ≥ Èó≠" onclick="closeWindow()" />
                     </td>
                 </tr>
             </table>

@@ -33,7 +33,8 @@
                                 </asp:TemplateField>
                                 <asp:BoundField DataField="Name" HeaderText="品名" ItemStyle-HorizontalAlign="Center" />   
                                 <asp:BoundField DataField="Num" HeaderText="订量" ItemStyle-HorizontalAlign="Center" />   
-                                  <asp:BoundField DataField="Unit" HeaderText="单位" ItemStyle-HorizontalAlign="Center" />                                  
+                                  <asp:BoundField DataField="Unit" HeaderText="单位" ItemStyle-HorizontalAlign="Center" />    
+                                    <asp:BoundField DataField="ShopNum" HeaderText="份数" ItemStyle-HorizontalAlign="Center" />                                
                             </Columns>
                             <AlternatingRowStyle CssClass="tr1" />
                             <HeaderStyle CssClass="fixed" />

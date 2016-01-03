@@ -16,23 +16,45 @@ string strDate1 = DateTime.Now.ToShortDateString() + "  "
     + System.Configuration.ConfigurationSettings.AppSettings["fudingTme1"];
 string strDate2 = DateTime.Now.ToShortDateString() + "  "
     + System.Configuration.ConfigurationSettings.AppSettings["liufangTme4"];
-    protected void Page_Load(object sender, EventArgs e)
-    {        
-        if (!IsPostBack)
-        {
-            
-            setDataSource("");
+protected void Page_Load(object sender, EventArgs e)
+{
+    if (!IsPostBack)
+    {
+        setDataSource("Fuding");
 
-            List<string> listStr = new List<string>();
-            listStr.Add("全部");
-            listStr.Add("杜六房");
-            listStr.Add("福鼎");
-            DropDownListFendain.DataSource = listStr;
-            DropDownListFendain.DataBind();
+        List<CDishObj> listDishObj = new List<CDishObj>();
+   
+        CDishObj order1 = new CDishObj();
+        order1.Name = "福鼎";
+        order1.Val = "Fuding";
+        listDishObj.Add(order1);
+
+        CDishObj order2 = new CDishObj();
+        order2.Name = "杜六房";
+        order2.Val = "Duliu";
+        listDishObj.Add(order2);
+
+        DropDownListFendain.DataSource = listDishObj;
+        DropDownListFendain.DataTextField = "Name";
+        DropDownListFendain.DataValueField = "Val";
+        DropDownListFendain.DataBind();
+    }
+}
+
+    class CDishObj
+    {
+        public string Name
+        {
+            get;
+            set;
+        }
+
+        public string Val
+        {
+            get;
+            set;
         }
     }
-
-
 
     protected void shop_SelectedIndexChanged(object sender, EventArgs e)
     {
@@ -54,67 +76,35 @@ string strDate2 = DateTime.Now.ToShortDateString() + "  "
         Response.Redirect("Print.aspx?shop=" + DropDownListFendain.SelectedValue.ToString());
     }
 
-    void setDataSource(string fendianName)
+    void setDataSource(string orderTbName)
     {
-        if(fendianName.Length<1||fendianName.Equals("全部"))
-        {
-         List<COrderObj> OrderList =GetOrderList(strDate1,strDate2);
-         if (OrderList == null)
-         {
-             gvInfo.DataSource = null;
-             gvInfo.DataBind();
-
-             string script = "";
-             script += "<script language='javascript'>";
-             script += "alert(目前当天没有任何订单!');";
-             script += "</script>";
-             Page.RegisterStartupScript("aaa", script);
-         }
-         else
-         {
-             gvInfo.DataSource = OrderList;
-             gvInfo.DataBind();
-         }
-        }
-        else
-        {
-              List<CTotalObj> TotalObjList = getTotal(strDate1, strDate2);
-              foreach(CTotalObj kv in TotalObjList)
-              {
-                  if (kv.Shop == fendianName)
-                  {
-                      gvInfo.DataSource = kv.ListOrder;
-                      gvInfo.DataBind();
-                      break;
-                  }
-                  else
-                  {
-                      gvInfo.DataSource = null;
-                      gvInfo.DataBind();
-                  }
-              }
-        }
+        gvInfo.DataSource = GetOrderList(strDate1, strDate2, orderTbName);
+        gvInfo.DataBind();  
     }
 
-    List<COrderObj> GetOrderList(string strDate1,string strDate2)
+    List<COrderObj> GetOrderList(string strDate1,string strDate2,string orderTbName)
     {
+        List<CTotalObj> TotalObjList = getTotal(strDate1, strDate2, orderTbName);
         List<COrderObj> listOrder = new List<COrderObj>();
-
-        List<CTotalObj> TotalObjList = getTotal(strDate1, strDate2);
-        if (TotalObjList == null || TotalObjList.Count < 1) return null;
-
-         
         listOrder.AddRange(TotalObjList[0].ListOrder);
 
-        //两个店加和
-        if (TotalObjList.Count == 2)
+        //加和
+        if (TotalObjList.Count > 1)
         {
-            for (int i = 0; i < TotalObjList.Count; i++)
-            {               
-                    listOrder[i].Num += TotalObjList[1].ListOrder[i].Num;
-                    listOrder[i].ShopNum += TotalObjList[1].ListOrder[i].ShopNum;              
+            for (int i = 1; i < TotalObjList.Count; i++) //第一列已经加和
+            {
+                for (int j = 0; j < listOrder.Count; j++)
+                {
+                    try
+                    {
+                        listOrder[j].Num += TotalObjList[i].ListOrder[j].Num;
+                        listOrder[j].ShopNum += TotalObjList[i].ListOrder[j].ShopNum;
+                    }
+                    catch
+                    {}
+                }
             }
-        }      
+        }
 
         return listOrder;
     }
@@ -124,28 +114,12 @@ string strDate2 = DateTime.Now.ToShortDateString() + "  "
     {
         StringBuilder strBld = new StringBuilder();             
 
-        string fendian = DropDownListFendain.SelectedValue.ToString();
+        string fendian = DropDownListFendain.SelectedItem.Text;
         string title = fendian + "配货单&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日期：" + DateTime.Now.ToLongDateString();
         strBld.Append("<div>");
-        strBld.Append(" <div>" +title+"</div>");
-        List<COrderObj> listOrder = null;
-        if (fendian.Length < 1 || fendian.Equals("全部"))
-        {
-            listOrder = GetOrderList(strDate1, strDate2);            
-        }
-        else
-        {
-            List<CTotalObj> TotalObjList = getTotal(strDate1, strDate2);
-            foreach (CTotalObj kv in TotalObjList)
-            {
-                if (kv.Shop == fendian)
-                {
-                    listOrder = kv.ListOrder;
-                }
-            }
-        }
-
-        foreach (COrderObj kv in listOrder)
+        strBld.Append(" <div>" +"福鼎订菜汇总"+"</div>");    
+        List<COrderObj> listOrder1 = GetOrderList(strDate1, strDate2, "Fuding");
+        foreach (COrderObj kv in listOrder1)
         {
             strBld.Append("<div>");         
             strBld.Append(getMyString(kv.Name));
@@ -157,6 +131,19 @@ string strDate2 = DateTime.Now.ToShortDateString() + "  "
             strBld.Append("</div>");
         }
 
+        strBld.Append(" <div>" + "杜六房订菜汇总" + "</div>");    
+        List<COrderObj> listOrder2 = GetOrderList(strDate1, strDate2, "Duliu");
+        foreach (COrderObj kv in listOrder2)
+        {
+            strBld.Append("<div>");
+            strBld.Append(getMyString(kv.Name));
+            strBld.Append(kv.Num.ToString());
+            strBld.Append("&nbsp;&nbsp;" + getMyString(kv.Unit));
+            strBld.Append("共&nbsp;");
+            strBld.Append(kv.ShopNum.ToString());//份数
+            strBld.Append("&nbsp;份");
+            strBld.Append("</div>");
+        }
         strBld.Append("</div>");
 
         string emailContent = strBld.ToString();
@@ -193,13 +180,13 @@ string strDate2 = DateTime.Now.ToShortDateString() + "  "
         return res;
     }
 
-    List<CTotalObj> getTotal(string strDate1, string strDate2)
+    List<CTotalObj> getTotal(string strDate1, string strDate2, string orderTbName)
     {
         List<CTotalObj> TotalObjList = new List<CTotalObj>();
 
         //获取所有激活的列名
         DbHelp db = new DbHelp();
-        DataSet ds = db.Query("select Name,ColName from tb_dishes where IsAction = 1");
+        DataSet ds = db.Query("select Name,ColName from tb_dishes" + orderTbName + " where IsAction = 1");
         StringBuilder strbld = new StringBuilder();
         strbld.Append("select ShopName, ");
         if (null != ds && ds.Tables.Count > 0)
@@ -216,10 +203,10 @@ string strDate2 = DateTime.Now.ToShortDateString() + "  "
                     strbld.Append(",");
             }
         }
-        strbld.Append(" from tb_order o,tb_shop s,tb_user u  ");
+        strbld.Append(" from tb_order" + orderTbName + "  o,tb_shop s,tb_user u  ");
         strbld.Append(" where  1 =1   ");
-        strbld.Append(" and o.UserID = u.id  ");
         strbld.Append(" and u.shop = s.id  ");
+        strbld.Append("  and u.id = o.UserID  ");
         strbld.Append(" and (orderDate >='" + strDate1 + "'  and orderDate <='" + strDate2 + "')");
         strbld.Append(" group by s.ShopName  ");
 
@@ -229,7 +216,7 @@ string strDate2 = DateTime.Now.ToShortDateString() + "  "
         {
             DataTable dtGroupBy = dsGroupby.Tables[0];
             //获取单位      
-            DataSet dsDishes = db.Query("select Unit,Name from tb_dishes  where IsAction = '1'");
+            DataSet dsDishes = db.Query("select Unit,Name from tb_dishes" + orderTbName + "   where IsAction = '1'");
             StringBuilder bldRes = new StringBuilder();
             if (null != ds && dsDishes.Tables.Count > 0)
             {
@@ -248,6 +235,8 @@ string strDate2 = DateTime.Now.ToShortDateString() + "  "
                         string strNum = dtGroupBy.Rows[i][j].ToString();
                         strNum = strNum.Length > 0 ? strNum : "0";
                         orderObj.Num = int.Parse(strNum);
+                        orderObj.ShopNum = orderObj.Num > 0 ? 1 : 0;
+                        if(strNum!="0")
                         orderList.Add(orderObj);
                     }
                     totalObj.ListOrder = orderList;
@@ -258,8 +247,6 @@ string strDate2 = DateTime.Now.ToShortDateString() + "  "
 
         return TotalObjList;
     }
-
-
 
     class CTotalObj
     {
@@ -277,8 +264,7 @@ string strDate2 = DateTime.Now.ToShortDateString() + "  "
             get { return this.num; }
             set
             {
-                this.num = value;
-                this.ShopNum = this.num > 0 ? 1 : 0;
+                this.num = value;               
             }
         }
         public string Unit { get; set; }

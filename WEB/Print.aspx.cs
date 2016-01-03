@@ -8,11 +8,15 @@ using DAL;
 using System.Data;
 using System.Text;
 
+
+
+
 public partial class Print : System.Web.UI.Page
 {
       string strDate1 = DateTime.Now.ToShortDateString() + "  " + System.Configuration.ConfigurationSettings.AppSettings["fudingTme1"];
-            string strDate2 = DateTime.Now.ToShortDateString() + "  " + System.Configuration.ConfigurationSettings.AppSettings["fudingTme2"];
+      string strDate2 = DateTime.Now.ToShortDateString() + "  " + System.Configuration.ConfigurationSettings.AppSettings["liufangTme4"];
             string shop = "";
+          
     protected void Page_Load(object sender, EventArgs e)
     {        
         if (!IsPostBack)
@@ -21,7 +25,11 @@ public partial class Print : System.Web.UI.Page
             {
                 shop = Request.QueryString["shop"].ToString();
 
-                this.lblTitle.Text = shop + "&nbsp;&nbsp;&nbsp;&nbsp;配货单" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + DateTime.Now.ToShortDateString();
+                string shopName = "";
+                if (shop == "Fuding") shopName = "福鼎";
+                else shopName = "杜六房";
+
+                this.lblTitle.Text = shopName + "&nbsp;&nbsp;&nbsp;&nbsp;配货单" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + DateTime.Now.ToShortDateString();
             }
 
 
@@ -33,84 +41,41 @@ public partial class Print : System.Web.UI.Page
 
     void setDataSource(string fendianName)
     {
-        if(fendianName.Length<1||fendianName.Equals("全部"))
-        {
-         List<COrderObj> OrderList =GetOrderList(strDate1,strDate2);
-         gvInfo.DataSource = OrderList;
-         gvInfo.DataBind();
-        }
-        else
-        {
-              List<CTotalObj> TotalObjList = getTotal(strDate1, strDate2);
-              foreach(CTotalObj kv in TotalObjList)
-              {
-                  if(kv.Shop == fendianName)
-                  {
-                      gvInfo.DataSource = kv.ListOrder;
-                      gvInfo.DataBind();
-                      break;
-                  }
-              }
-        }
+        List<COrderObj> OrderList = GetOrderList(strDate1, strDate2,shop);
+        gvInfo.DataSource = OrderList;
+        gvInfo.DataBind();
     }
 
-    List<COrderObj> GetOrderList(string strDate1,string strDate2)
+    List<COrderObj> GetOrderList(string strDate1, string strDate2, string orderTbName)
     {
+        List<CTotalObj> TotalObjList = getTotal(strDate1, strDate2, orderTbName);
         List<COrderObj> listOrder = new List<COrderObj>();
-
-        List<CTotalObj> TotalObjList = getTotal(strDate1, strDate2);
-
-        //两个店加和      
         listOrder.AddRange(TotalObjList[0].ListOrder);
-        for (int i = 0; i < listOrder.Count; i++)
+
+        //加和
+        if (TotalObjList.Count > 1)
         {
-            listOrder[i].Num += TotalObjList[1].ListOrder[i].Num;
-            listOrder[i].ShopNum += TotalObjList[1].ListOrder[i].ShopNum;
+            for (int i = 0; i < TotalObjList.Count; i++)
+            {
+                for (int j = 0; j < listOrder.Count; j++)
+                {
+                    listOrder[j].Num += TotalObjList[i].ListOrder[j].Num;
+                    listOrder[j].ShopNum += TotalObjList[i].ListOrder[j].ShopNum;
+                }
+            }
         }
 
         return listOrder;
     }
 
 
-    void setTotalToMail()
-    {
-        StringBuilder strBld = new StringBuilder();
-
-        List<COrderObj> listOrder = GetOrderList(strDate1,strDate2);
-        strBld.Append("<div>");
-
-        foreach (COrderObj kv in listOrder)
-        {
-            strBld.Append("<div  style='width:200px'>");
-            strBld.Append("<span   style='width:50px'>");
-            strBld.Append(kv.Name);
-            strBld.Append(",  ");
-            strBld.Append("</span>");
-            strBld.Append("<span   style='width:50px'>");
-            strBld.Append(kv.Num);
-            strBld.Append("  ");
-            strBld.Append(kv.Unit);
-            strBld.Append(",  ");
-            strBld.Append("</span>");
-            strBld.Append("<span   style='width:50px'>");
-            strBld.Append(kv.ShopNum);//份数
-            strBld.Append("份");
-            strBld.Append("</span>");
-            strBld.Append("</div>");
-        }
-
-        strBld.Append("</div>");
-
-        string emailContent = strBld.ToString();
-        setMail(emailContent);
-    }
-    List<CTotalObj> getTotal(string strDate1, string strDate2)
+    List<CTotalObj> getTotal(string strDate1, string strDate2, string orderTbName)
     {
         List<CTotalObj> TotalObjList = new List<CTotalObj>();
 
         //获取所有激活的列名
         DbHelp db = new DbHelp();
-        DataSet ds = db.Query("select Name,ColName from tb_dishes where IsAction = 1");
+        DataSet ds = db.Query("select Name,ColName from tb_dishes" + orderTbName + " where IsAction = 1");
         StringBuilder strbld = new StringBuilder();
         strbld.Append("select ShopName, ");
         if (null != ds && ds.Tables.Count > 0)
@@ -127,10 +92,10 @@ public partial class Print : System.Web.UI.Page
                     strbld.Append(",");
             }
         }
-        strbld.Append(" from tb_order o,tb_shop s,tb_user u  ");
+        strbld.Append(" from tb_order" + orderTbName + "  o,tb_shop s,tb_user u  ");
         strbld.Append(" where  1 =1   ");
-        strbld.Append(" and o.UserID = u.id  ");
         strbld.Append(" and u.shop = s.id  ");
+        strbld.Append("  and u.id = o.UserID  ");
         strbld.Append(" and (orderDate >='" + strDate1 + "'  and orderDate <='" + strDate2 + "')");
         strbld.Append(" group by s.ShopName  ");
 
@@ -140,7 +105,7 @@ public partial class Print : System.Web.UI.Page
         {
             DataTable dtGroupBy = dsGroupby.Tables[0];
             //获取单位      
-            DataSet dsDishes = db.Query("select Unit,Name from tb_dishes  where IsAction = '1'");
+            DataSet dsDishes = db.Query("select Unit,Name from tb_dishes" + orderTbName + "   where IsAction = '1'");
             StringBuilder bldRes = new StringBuilder();
             if (null != ds && dsDishes.Tables.Count > 0)
             {
@@ -170,8 +135,7 @@ public partial class Print : System.Web.UI.Page
         return TotalObjList;
     }
 
-
-
+ 
     class CTotalObj
     {
         public CTotalObj() { this.ListOrder = new List<COrderObj>(); }
@@ -212,34 +176,4 @@ public partial class Print : System.Web.UI.Page
 
         return danwei;
     }
-
-    public void setMail(string content)
-    {
-        //string senderServerIp = "smtp.126.com";
-
-        string fromMailAddress = System.Configuration.ConfigurationSettings.AppSettings["fromMail"];
-
-        string subjectInfo = "分店:" + "" + "_发送人:" + "" + "_" + DateTime.Now.ToLongDateString();
-
-        string title = " <div>日期：" + DateTime.Now.ToLongDateString() + "&nbsp;&nbsp;&nbsp;&nbsp;分店:" + "" + "</div>";
-        string bodyInfo = title + content;//正文
-        string mailUsername = System.Configuration.ConfigurationSettings.AppSettings["username"];
-        string mailPassword = System.Configuration.ConfigurationSettings.AppSettings["password"];//发送邮箱的密
-        string mailPort = "25";
-
-        //获取接收的邮箱
-        DbHelp db = new DbHelp();
-        DataSet ds = db.Query("select Email from tb_email  ");
-        if (null != ds && ds.Tables.Count > 0)
-        {
-            DataTable dt = ds.Tables[0];
-            foreach (DataRow dr in dt.Rows)
-            {
-                string toMailAddress = dr["Email"].ToString();
-                CSendMail email = new CSendMail("", toMailAddress, fromMailAddress, subjectInfo, bodyInfo, mailUsername, mailPassword, mailPort, false, false);
-                email.Send();
-            }
-        }
-
-    } 
 }
